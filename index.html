@@ -814,43 +814,36 @@ document.getElementById("pwInput").onkeydown = function(e) {
   });
 })();
 </script>
+
 <script>
-function gtSend(btn) {
-  var f = document.querySelectorAll('.cta-input');
-  var v = [];
-  for(var i=0;i<f.length;i++) v.push(f[i].value.trim());
-  if(!v[0]&&!v[2]){alert('Заполните имя и контакт');return;}
-
-  var msg = 'Заявка с gtgroup.pro
-
-';
-  var lb = ['Имя','Компания','Контакт','Задача'];
-  for(var j=0;j<v.length;j++){if(v[j])msg+=lb[j]+': '+v[j]+'
-';}
-  msg+='Сайт: gtgroup.pro';
-
-  btn.disabled=true;
-  btn.textContent='Отправляем...';
-
-  var done=false;
-  function finish(){
-    if(done)return; done=true;
-    btn.textContent='Заявка отправлена!';
-    btn.style.background='#1a4a1a';
-    btn.style.color='#fff';
-    for(var k=0;k<f.length;k++)f[k].value='';
-    setTimeout(function(){
-      btn.textContent='Отправить заявку →';
-      btn.style.background='';
-      btn.style.color='';
-      btn.disabled=false;
-    },4000);
+function gtSend(b){
+  var f=document.querySelectorAll(".cta-input");
+  var n=f[0]?f[0].value.trim():"";
+  var co=f[1]?f[1].value.trim():"";
+  var ct=f[2]?f[2].value.trim():"";
+  var t=f[3]?f[3].value.trim():"";
+  if(!n&&!ct){alert("Заполните имя и контакт");return;}
+  var msg="Заявка с gtgroup.pro!\n\n";
+  if(n)msg+="Имя: "+n+"\n";
+  if(co)msg+="Компания: "+co+"\n";
+  if(ct)msg+="Контакт: "+ct+"\n";
+  if(t)msg+="Задача: "+t+"\n";
+  msg+="Сайт: gtgroup.pro";
+  b.disabled=true;
+  b.textContent="Отправляем...";
+  var ok=false;
+  function done(){
+    if(ok)return;ok=true;
+    b.textContent="Заявка отправлена!";
+    b.style.background="#1a4a1a";
+    b.style.color="#fff";
+    for(var i=0;i<f.length;i++)f[i].value="";
+    setTimeout(function(){b.textContent="Отправить заявку →";b.style.background="";b.style.color="";b.disabled=false;},4000);
   }
-
   var img=new Image();
-  img.onload=img.onerror=finish;
-  img.src='https://api.telegram.org/bot8788839043:AAHI5zqIzo73uDx6ZMSHfxf6dJeNTQczbI0/sendMessage?chat_id=7610146999&text='+encodeURIComponent(msg);
-  setTimeout(finish,8000);
+  img.onload=img.onerror=done;
+  img.src="https://api.telegram.org/bot8788839043:AAHI5zqIzo73uDx6ZMSHfxf6dJeNTQczbI0/sendMessage?chat_id=7610146999&text="+encodeURIComponent(msg);
+  setTimeout(done,8000);
 }
 </script>
 </body>
@@ -1132,43 +1125,36 @@ document.getElementById("pwInput").onkeydown = function(e) {
   });
 })();
 </script>
+
 <script>
-function gtSend(btn) {
-  var f = document.querySelectorAll('.cta-input');
-  var v = [];
-  for(var i=0;i<f.length;i++) v.push(f[i].value.trim());
-  if(!v[0]&&!v[2]){alert('Заполните имя и контакт');return;}
-
-  var msg = 'Заявка с gtgroup.pro
-
-';
-  var lb = ['Имя','Компания','Контакт','Задача'];
-  for(var j=0;j<v.length;j++){if(v[j])msg+=lb[j]+': '+v[j]+'
-';}
-  msg+='Сайт: gtgroup.pro';
-
-  btn.disabled=true;
-  btn.textContent='Отправляем...';
-
-  var done=false;
-  function finish(){
-    if(done)return; done=true;
-    btn.textContent='Заявка отправлена!';
-    btn.style.background='#1a4a1a';
-    btn.style.color='#fff';
-    for(var k=0;k<f.length;k++)f[k].value='';
-    setTimeout(function(){
-      btn.textContent='Отправить заявку →';
-      btn.style.background='';
-      btn.style.color='';
-      btn.disabled=false;
-    },4000);
+function gtSend(b){
+  var f=document.querySelectorAll(".cta-input");
+  var n=f[0]?f[0].value.trim():"";
+  var co=f[1]?f[1].value.trim():"";
+  var ct=f[2]?f[2].value.trim():"";
+  var t=f[3]?f[3].value.trim():"";
+  if(!n&&!ct){alert("Заполните имя и контакт");return;}
+  var msg="Заявка с gtgroup.pro!\n\n";
+  if(n)msg+="Имя: "+n+"\n";
+  if(co)msg+="Компания: "+co+"\n";
+  if(ct)msg+="Контакт: "+ct+"\n";
+  if(t)msg+="Задача: "+t+"\n";
+  msg+="Сайт: gtgroup.pro";
+  b.disabled=true;
+  b.textContent="Отправляем...";
+  var ok=false;
+  function done(){
+    if(ok)return;ok=true;
+    b.textContent="Заявка отправлена!";
+    b.style.background="#1a4a1a";
+    b.style.color="#fff";
+    for(var i=0;i<f.length;i++)f[i].value="";
+    setTimeout(function(){b.textContent="Отправить заявку →";b.style.background="";b.style.color="";b.disabled=false;},4000);
   }
-
   var img=new Image();
-  img.onload=img.onerror=finish;
-  img.src='https://api.telegram.org/bot8788839043:AAHI5zqIzo73uDx6ZMSHfxf6dJeNTQczbI0/sendMessage?chat_id=7610146999&text='+encodeURIComponent(msg);
-  setTimeout(finish,8000);
+  img.onload=img.onerror=done;
+  img.src="https://api.telegram.org/bot8788839043:AAHI5zqIzo73uDx6ZMSHfxf6dJeNTQczbI0/sendMessage?chat_id=7610146999&text="+encodeURIComponent(msg);
+  setTimeout(done,8000);
 }
 </script>
 </body>
