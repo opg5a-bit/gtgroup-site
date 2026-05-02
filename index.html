@@ -820,41 +820,37 @@ document.getElementById("pwInput").onkeydown = function(e) {
 
 
 
+
 <script>
 function sendForm(btn) {
   var inputs = document.querySelectorAll('.cta-input');
   var vals = Array.from(inputs).map(function(i) { return i.value.trim(); });
-  if (!vals[0] && !vals[2]) { alert('Заполните имя и контакт'); return; }
-
   var labels = ['Имя', 'Компания', 'Контакт', 'Задача'];
-  var text = '🔔 Новая заявка с gtgroup.pro!\n\n';
+
+  if (!vals[0] && !vals[2]) {
+    alert('Заполните хотя бы имя и контакт');
+    return;
+  }
+
+  var text = '🔔 Заявка с gtgroup.pro\n\n';
   vals.forEach(function(v, i) { if (v) text += labels[i] + ': ' + v + '\n'; });
   text += '\nСайт: gtgroup.pro';
 
-  btn.disabled = true;
-  btn.textContent = '⏳ Отправляем...';
+  // Открываем Telegram с заполненным сообщением
+  var tgUrl = 'https://t.me/gtgrouppro?text=' + encodeURIComponent(text);
+  window.open(tgUrl, '_blank');
 
-  fetch('https://gtgroup.pro/api/telegram', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({ text: text })
-  })
-  .then(function(r) { return r.json(); })
-  .then(function(d) {
-    if (d.ok) {
-      btn.textContent = '✅ Заявка отправлена!';
-      btn.style.background = '#1a4a1a'; btn.style.color = '#fff';
-      inputs.forEach(function(i) { i.value = ''; });
-    } else { throw new Error(); }
-  })
-  .catch(function() {
-    var t = encodeURIComponent(text);
-    window.open('https://t.me/gtgrouppro?text=' + t, '_blank');
-    btn.textContent = '💬 Написали в Telegram';
-    btn.style.background = '#c8a84b'; btn.style.color = '#0e101c';
-    btn.disabled = false;
-    inputs.forEach(function(i) { i.value = ''; });
-  });
+  btn.textContent = '✅ Переходим в Telegram';
+  btn.style.background = '#1a5a1a';
+  btn.style.color = '#fff';
+  inputs.forEach(function(i) { i.value = ''; });
+
+  // Восстанавливаем кнопку через 4 секунды
+  setTimeout(function() {
+    btn.textContent = 'Отправить заявку →';
+    btn.style.background = '';
+    btn.style.color = '';
+  }, 4000);
 }
 </script>
 </body>
@@ -1154,41 +1150,37 @@ document.getElementById("pwInput").onkeydown = function(e) {
 
 
 
+
 <script>
 function sendForm(btn) {
   var inputs = document.querySelectorAll('.cta-input');
   var vals = Array.from(inputs).map(function(i) { return i.value.trim(); });
-  if (!vals[0] && !vals[2]) { alert('Заполните имя и контакт'); return; }
-
   var labels = ['Имя', 'Компания', 'Контакт', 'Задача'];
-  var text = '🔔 Новая заявка с gtgroup.pro!\n\n';
+
+  if (!vals[0] && !vals[2]) {
+    alert('Заполните хотя бы имя и контакт');
+    return;
+  }
+
+  var text = '🔔 Заявка с gtgroup.pro\n\n';
   vals.forEach(function(v, i) { if (v) text += labels[i] + ': ' + v + '\n'; });
   text += '\nСайт: gtgroup.pro';
 
-  btn.disabled = true;
-  btn.textContent = '⏳ Отправляем...';
+  // Открываем Telegram с заполненным сообщением
+  var tgUrl = 'https://t.me/gtgrouppro?text=' + encodeURIComponent(text);
+  window.open(tgUrl, '_blank');
 
-  fetch('https://gtgroup.pro/api/telegram', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({ text: text })
-  })
-  .then(function(r) { return r.json(); })
-  .then(function(d) {
-    if (d.ok) {
-      btn.textContent = '✅ Заявка отправлена!';
-      btn.style.background = '#1a4a1a'; btn.style.color = '#fff';
-      inputs.forEach(function(i) { i.value = ''; });
-    } else { throw new Error(); }
-  })
-  .catch(function() {
-    var t = encodeURIComponent(text);
-    window.open('https://t.me/gtgrouppro?text=' + t, '_blank');
-    btn.textContent = '💬 Написали в Telegram';
-    btn.style.background = '#c8a84b'; btn.style.color = '#0e101c';
-    btn.disabled = false;
-    inputs.forEach(function(i) { i.value = ''; });
-  });
+  btn.textContent = '✅ Переходим в Telegram';
+  btn.style.background = '#1a5a1a';
+  btn.style.color = '#fff';
+  inputs.forEach(function(i) { i.value = ''; });
+
+  // Восстанавливаем кнопку через 4 секунды
+  setTimeout(function() {
+    btn.textContent = 'Отправить заявку →';
+    btn.style.background = '';
+    btn.style.color = '';
+  }, 4000);
 }
 </script>
 </body>
