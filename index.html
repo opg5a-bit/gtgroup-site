@@ -14,7 +14,7 @@
   --line:rgba(255,255,255,.09);--line2:rgba(200,168,75,.25);
   --white:#f0f2f8;--gray:#9095a8;--gray2:#6a7085;
 }
-html{scroll-behavior:smooth;margin:0;padding:0;height:auto}
+html{scroll-behavior:smooth;margin:0;padding:0}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--white);overflow-x:hidden;line-height:1.6}
 h1,h2,h3,h4{font-family:'Playfair Display',serif;line-height:1.15}
 ::-webkit-scrollbar{width:4px}
@@ -621,7 +621,7 @@ window.addEventListener('scroll', () => {
 </div>
 
 <!-- ТУЛБАР -->
-<div id="edToolbar">
+<div id="edToolbar" style="display:none">
   <span class="edBadge">✏️ РЕДАКТОР</span>
   <span class="edHint">Кликайте на текст для изменения</span>
   <div style="margin-left:auto;display:flex;gap:10px">
@@ -888,7 +888,7 @@ document.getElementById("pwInput").onkeydown = function(e) {
   --line:rgba(255,255,255,.09);--line2:rgba(200,168,75,.25);
   --white:#f0f2f8;--gray:#9095a8;--gray2:#6a7085;
 }
-html{scroll-behavior:smooth;margin:0;padding:0;height:auto}
+html{scroll-behavior:smooth;margin:0;padding:0}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--white);overflow-x:hidden;line-height:1.6}
 h1,h2,h3,h4{font-family:'Playfair Display',serif;line-height:1.15}
 ::-webkit-scrollbar{width:4px}
@@ -1486,7 +1486,7 @@ window.addEventListener('scroll', () => {
 </div>
 
 <!-- ТУЛБАР -->
-<div id="edToolbar">
+<div id="edToolbar" style="display:none">
   <span class="edBadge">✏️ РЕДАКТОР</span>
   <span class="edHint">Кликайте на текст для изменения</span>
   <div style="margin-left:auto;display:flex;gap:10px">
