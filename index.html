@@ -513,7 +513,7 @@ footer { margin-bottom: 0 !important; padding-bottom: 30px !important; }
 <input class="cta-input" placeholder="Компания" type="text"/>
 <input class="cta-input" placeholder="Email или телефон" type="text"/>
 <textarea class="cta-input" placeholder="Кратко опишите задачу" rows="3" style="resize:none;font-family:inherit"></textarea>
-<button class="btn-gold" onclick="this.textContent='✓ Заявка отправлена';this.style.background='#2d6a2d';this.style.color='#fff'" style="justify-content:center">Отправить заявку →</button>
+<button onclick="sendForm(this)" class="btn-gold" onclick="this.textContent='✓ Заявка отправлена';this.style.background='#2d6a2d';this.style.color='#fff'" style="justify-content:center">Отправить заявку →</button>
 <p class="cta-agree">Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности. Ваши данные защищены и не передаются третьим лицам.</p>
 </div>
 </div>
@@ -816,6 +816,52 @@ document.getElementById("pwInput").onkeydown = function(e) {
   });
 })();
 </script>
+
+<script>
+function sendForm(btn) {
+  var inputs = document.querySelectorAll('.cta-input');
+  var vals = Array.from(inputs).map(function(i) { return i.value.trim(); });
+  
+  if (!vals[0] && !vals[2]) {
+    alert('Заполните имя и контакт для связи');
+    return;
+  }
+
+  var labels = ['👤 Имя', '🏢 Компания', '📧 Контакт', '📝 Задача'];
+  var text = '🔔 Новая заявка с gtgroup.pro!\n\n';
+  vals.forEach(function(v, i) {
+    if (v) text += labels[i] + ': ' + v + '\n';
+  });
+  text += '\n🌐 gtgroup.pro';
+
+  btn.disabled = true;
+  btn.textContent = '⏳ Отправляем...';
+
+  fetch('https://api.telegram.org/bot8788839043:AAHI5zqIzo73uDx6ZMSHfxf6dJeNTQczbI0/sendMessage', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ chat_id: '7610146999', text: text })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(d) {
+    if (d.ok) {
+      btn.textContent = '✅ Заявка отправлена!';
+      btn.style.background = '#1a4a1a';
+      inputs.forEach(function(i) { i.value = ''; });
+    } else {
+      btn.textContent = 'Ошибка — пишите @gtgrouppro';
+      btn.style.background = '#4a1a1a';
+      btn.disabled = false;
+    }
+  })
+  .catch(function() {
+    window.open('https://t.me/gtgrouppro', '_blank');
+    btn.textContent = '✅ Перейдите в Telegram';
+    btn.disabled = false;
+  });
+}
+</script>
+
 </body>
 
 <link href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiIgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIj4KICA8cmVjdCB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHJ4PSI3IiBmaWxsPSIjMGUxMDFjIi8+CiAgPHJlY3QgeD0iMiIgeT0iMiIgd2lkdGg9IjI4IiBoZWlnaHQ9IjI4IiByeD0iNS41IiBmaWxsPSJub25lIiBzdHJva2U9IiNjOGE4NGIiIHN0cm9rZS13aWR0aD0iMiIvPgogIDx0ZXh0IHg9IjE2IiB5PSIyMiIgZm9udC1mYW1pbHk9IkFyaWFsIEJsYWNrLCBBcmlhbCIgZm9udC13ZWlnaHQ9IjkwMCIgZm9udC1zaXplPSIxNCIgCiAgICAgICAgZmlsbD0iI2M4YTg0YiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgbGV0dGVyLXNwYWNpbmc9IjAuNSI+R1Q8L3RleHQ+Cjwvc3ZnPg==" rel="icon" type="image/svg+xml"/>
@@ -1109,5 +1155,51 @@ document.getElementById("pwInput").onkeydown = function(e) {
   });
 })();
 </script>
+
+<script>
+function sendForm(btn) {
+  var inputs = document.querySelectorAll('.cta-input');
+  var vals = Array.from(inputs).map(function(i) { return i.value.trim(); });
+  
+  if (!vals[0] && !vals[2]) {
+    alert('Заполните имя и контакт для связи');
+    return;
+  }
+
+  var labels = ['👤 Имя', '🏢 Компания', '📧 Контакт', '📝 Задача'];
+  var text = '🔔 Новая заявка с gtgroup.pro!\n\n';
+  vals.forEach(function(v, i) {
+    if (v) text += labels[i] + ': ' + v + '\n';
+  });
+  text += '\n🌐 gtgroup.pro';
+
+  btn.disabled = true;
+  btn.textContent = '⏳ Отправляем...';
+
+  fetch('https://api.telegram.org/bot8788839043:AAHI5zqIzo73uDx6ZMSHfxf6dJeNTQczbI0/sendMessage', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ chat_id: '7610146999', text: text })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(d) {
+    if (d.ok) {
+      btn.textContent = '✅ Заявка отправлена!';
+      btn.style.background = '#1a4a1a';
+      inputs.forEach(function(i) { i.value = ''; });
+    } else {
+      btn.textContent = 'Ошибка — пишите @gtgrouppro';
+      btn.style.background = '#4a1a1a';
+      btn.disabled = false;
+    }
+  })
+  .catch(function() {
+    window.open('https://t.me/gtgrouppro', '_blank');
+    btn.textContent = '✅ Перейдите в Telegram';
+    btn.disabled = false;
+  });
+}
+</script>
+
 </body>
 </html>
