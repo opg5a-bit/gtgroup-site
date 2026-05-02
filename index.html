@@ -539,12 +539,7 @@ body.edMode [contenteditable]:focus{
           </div>
         </a>
         <p class="footer-desc">AI-решения для бизнеса нового поколения. Автоматизируем, оптимизируем, масштабируем.</p>
-        <div class="socials" style="margin-top:24px">
-          <a class="soc" href="https://t.me/gtgrouppro" target="_blank">✈</a>
-          <a class="soc" href="#">in</a>
-          <a class="soc" href="#">▶</a>
-          <a class="soc" href="#">▪</a>
-        </div>
+        
       </div>
       <div>
         <div class="footer-h">Услуги</div>
@@ -569,7 +564,7 @@ body.edMode [contenteditable]:focus{
       <div>
         <div class="footer-h">Контакты</div>
         <div class="footer-links">
-          <a href="#">info@tgk-ai.ru</a>
+          <a href="#">gtgroup.pro@mail.ru</a>
           
           <a href="#">Казань, Россия</a>
           <a href="#">Telegram</a>
@@ -601,7 +596,7 @@ window.addEventListener('scroll', () => {
 </script>
 
 <!-- КНОПКА РЕДАКТОРА -->
-<button id="editBtn" onclick="ED.open()" title="Редактировать сайт">✏️</button>
+<button id="editBtn" title="Редактировать сайт" style="display:none">✏️</button>
 
 <!-- МОДАЛКА ПАРОЛЯ -->
 <div id="pwModal" style="display:none;position:fixed;inset:0;z-index:9500;background:rgba(7,8,15,.93);backdrop-filter:blur(16px);align-items:center;justify-content:center">
@@ -817,6 +812,895 @@ document.getElementById("pwInput").onkeydown = function(e) {
     </div>
   </div>
 </div>
+
+
+<script>
+// Секретный хоткей для редактора — нажми G затем T
+(function(){
+  var seq = [];
+  var code = ['g','t'];
+  document.addEventListener('keydown', function(e){
+    seq.push(e.key.toLowerCase());
+    if(seq.length > 2) seq.shift();
+    if(seq.join('') === code.join('')){
+      var btn = document.getElementById('editBtn');
+      if(btn){
+        btn.style.display = 'flex';
+        btn.style.position = 'fixed';
+        btn.style.bottom = '28px';
+        btn.style.right = '28px';
+        btn.style.zIndex = '9000';
+      }
+      seq = [];
+    }
+  });
+})();
+</script>
+
+</body>
+</htmlfunction sendToTelegram(btn) {
+  var inputs = document.querySelectorAll('.cta-input');
+  var labels = ['👤 Имя', '🏢 Компания', '📧 Контакт', '📝 Задача'];
+  var msg = '🔔 Новая заявка с сайта gtgroup.pro%0A%0A';
+  var i = 0;
+  inputs.forEach(function(inp) {
+    if(inp.value && inp.value.trim()) {
+      msg += (labels[i]||'📌') + ': ' + encodeURIComponent(inp.value.trim()) + '%0A';
+    }
+    i++;
+  });
+  msg += '%0A🌐 Источник: gtgroup.pro';
+  
+  // Отправляем через Telegram Bot API
+  fetch('https://api.telegram.org/bot8788839043:AAHI5zqIzo73uDx6ZMSHfxf6dJeNTQczbI0/sendMessage', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      chat_id: 'ME',
+      text: decodeURIComponent(msg),
+      parse_mode: 'HTML'
+    })
+  }).then(function(r){ return r.json(); }).then(function(d){
+    if(!d.ok && d.description && d.description.includes('chat not found')) {
+      // chat_id ещё не известен — открываем тг
+      window.open('https://t.me/bot_gtgroup_bot', '_blank');
+      alert('Напиши /start боту @bot_gtgroup_bot один раз, чтобы активировать получение заявок!');
+    }
+  }).catch(function(){});
+
+  btn.textContent = '✓ Заявка отправлена!';
+  btn.style.background = '#2d6a2d';
+  btn.style.color = '#fff';
+  inputs.forEach(function(inp){ inp.value=''; });
+}
+:root{
+  --gold:#c8a84b;--gold2:#e2c87a;--gold-dim:rgba(200,168,75,.15);
+  --bg:#0e101c;--bg2:#141728;--bg3:#1a1f35;
+  --line:rgba(255,255,255,.09);--line2:rgba(200,168,75,.25);
+  --white:#f0f2f8;--gray:#9095a8;--gray2:#6a7085;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--white);overflow-x:hidden;line-height:1.6}
+h1,h2,h3,h4{font-family:'Playfair Display',serif;line-height:1.15}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
+
+/* GRID BACKGROUND */
+.grid-bg{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);
+  background-size:60px 60px}
+.grid-bg::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 100% 70% at 50% 0%,rgba(200,168,75,.1),transparent)}
+
+/* HEADER */
+.header{position:fixed;top:0;left:0;right:0;z-index:200;
+  padding:0 60px;height:72px;display:flex;align-items:center;justify-content:space-between;
+  background:rgba(14,16,28,.92);backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--line);transition:border-color .3s}
+.logo{display:flex;align-items:center;gap:16px;text-decoration:none}
+.logo-mark{width:38px;height:38px;border:2px solid var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--gold);letter-spacing:1px}
+.logo-info{display:flex;flex-direction:column;gap:1px}
+.logo-name{font-family:'Inter',sans-serif;font-size:15px;font-weight:700;letter-spacing:2px;color:var(--white);text-transform:uppercase}
+.logo-sub{font-size:9px;color:var(--gray2);letter-spacing:1.5px;text-transform:uppercase}
+nav{display:flex;align-items:center;gap:2px}
+nav a{color:var(--gray);text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.3px;padding:8px 16px;border-radius:6px;transition:color .2s}
+nav a:hover{color:var(--white)}
+.nav-btn{border:1px solid var(--gold);color:var(--gold) !important;border-radius:6px;padding:8px 20px !important;transition:all .25s !important}
+.nav-btn:hover{background:var(--gold) !important;color:var(--bg) !important}
+
+/* CONTAINER */
+.wrap{max-width:1180px;margin:0 auto;padding:0 60px;position:relative;z-index:1}
+
+/* ── HERO ── */
+.hero{min-height:100vh;display:flex;align-items:center;padding-top:72px}
+.hero-label{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:32px}
+.hero-label::before{content:'';width:32px;height:1px;background:var(--gold)}
+.hero h1{font-size:clamp(44px,5.5vw,80px);font-weight:900;letter-spacing:-2px;line-height:1.05;margin-bottom:28px}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero-desc{font-size:17px;color:#a0a8bc;max-width:520px;line-height:1.8;margin-bottom:48px;font-weight:300}
+.hero-actions{display:flex;align-items:center;gap:24px;margin-bottom:80px}
+.btn-gold{background:var(--gold);color:var(--bg);border:none;border-radius:8px;padding:15px 36px;font-size:14px;font-weight:700;letter-spacing:.5px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:10px;transition:all .25s;font-family:'Inter',sans-serif}
+.btn-gold:hover{background:var(--gold2);transform:translateY(-2px);box-shadow:0 12px 40px rgba(200,168,75,.3)}
+.btn-outline{background:transparent;color:var(--white);border:1px solid var(--line2);border-radius:8px;padding:15px 36px;font-size:14px;font-weight:500;letter-spacing:.5px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:10px;transition:all .25s;font-family:'Inter',sans-serif}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold)}
+.hero-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.metric{background:rgba(255,255,255,.05);padding:28px 24px;text-align:center}
+.metric-val{font-family:'Playfair Display',serif;font-size:36px;font-weight:700;color:var(--gold);display:block;line-height:1}
+.metric-label{font-size:12px;color:var(--gray2);margin-top:8px;letter-spacing:.5px;font-weight:500}
+
+/* ── DIVIDER ── */
+.divider{height:1px;background:var(--line);position:relative;z-index:1}
+.divider-gold{height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:0;opacity:.4}
+
+/* ── SECTION LABEL ── */
+.s-label{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.s-label::after{content:'';flex:1;height:1px;background:var(--line2);max-width:60px}
+.s-title{font-size:clamp(32px,3.5vw,52px);font-weight:800;letter-spacing:-1px;margin-bottom:16px}
+.s-sub{font-size:16px;color:#a0a8bc;line-height:1.8;max-width:540px;font-weight:300}
+
+/* ── SERVICES ── */
+.services{padding:120px 0}
+.svc-layout{display:grid;grid-template-columns:1fr 2fr;gap:80px;align-items:start}
+.svc-sticky{position:sticky;top:100px}
+.svc-list{display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:40px}
+.svc-item{background:rgba(255,255,255,.03);padding:32px;display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:start;transition:background .2s;cursor:default;border-left:3px solid transparent;transition:all .25s}
+.svc-item:hover{background:rgba(255,255,255,.07);border-left-color:var(--gold)}
+.svc-num{font-family:'Playfair Display',serif;font-size:13px;color:var(--gold);font-weight:700;padding-top:3px;min-width:24px}
+.svc-name{font-size:16px;font-weight:600;margin-bottom:8px;letter-spacing:-.2px}
+.svc-desc{font-size:13px;color:var(--gray);line-height:1.65}
+.svc-arrow{color:var(--gold);font-size:18px;opacity:0;transition:opacity .2s;padding-top:2px}
+.svc-item:hover .svc-arrow{opacity:1}
+
+/* ── PROCESS ── */
+.process{padding:120px 0;background:#181c2e}
+.process-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:60px;position:relative}
+.process-grid::before{content:'';position:absolute;top:28px;left:15%;right:15%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.35}
+.proc-item{padding:0 24px;text-align:center}
+.proc-step{width:56px;height:56px;border:2px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 28px;font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--gold);position:relative;background:#1a1f35;box-shadow:0 0 20px rgba(200,168,75,.15)}
+.proc-name{font-size:15px;font-weight:700;margin-bottom:10px;letter-spacing:-.2px}
+.proc-desc{font-size:13px;color:var(--gray);line-height:1.65}
+
+/* ── NUMBERS ── */
+.numbers{padding:120px 0}
+.num-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:60px}
+.num-item{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);padding:50px 36px;position:relative}
+.num-item::after{content:'';position:absolute;top:0;left:0;width:3px;height:0;background:var(--gold);transition:height .4s ease;border-radius:0 2px 2px 0}
+.num-item:hover::after{height:100%}
+.num-val{font-family:'Playfair Display',serif;font-size:54px;font-weight:700;color:var(--gold);display:block;line-height:1;margin-bottom:14px}
+.num-title{font-size:14px;font-weight:600;margin-bottom:8px}
+.num-desc{font-size:13px;color:var(--gray);line-height:1.6}
+
+/* ── CASES ── */
+.cases{padding:120px 0;background:#181c2e}
+.cases-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:60px}
+.case-item{background:rgba(255,255,255,.04);padding:44px 36px;transition:background .25s;cursor:default;display:flex;flex-direction:column;gap:20px}
+.case-item:hover{background:rgba(255,255,255,.08)}
+.case-sector{font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold)}
+.case-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;line-height:1.3;letter-spacing:-.3px}
+.case-desc{font-size:13px;color:var(--gray);line-height:1.7;flex:1}
+.case-result{display:flex;flex-direction:column;gap:8px;padding-top:16px;border-top:1px solid var(--line)}
+.case-res-row{display:flex;justify-content:space-between;align-items:center;font-size:13px}
+.case-res-row span:first-child{color:var(--gray2)}
+.case-res-row span:last-child{font-weight:700;color:var(--white)}
+
+/* ── TECH ── */
+.tech{padding:120px 0}
+.tech-layout{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.tech-list{display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.tech-row{background:rgba(255,255,255,.03);padding:20px 28px;display:flex;align-items:center;justify-content:space-between;transition:background .2s}
+.tech-row:hover{background:rgba(255,255,255,.07)}
+.tech-name{font-size:14px;font-weight:600}
+.tech-cat{font-size:11px;color:var(--gold);font-weight:600;letter-spacing:1px;text-transform:uppercase}
+.tech-dot{width:7px;height:7px;background:var(--gold);border-radius:50%;box-shadow:0 0 8px var(--gold)}
+
+/* ── CTA ── */
+.cta-section{padding:120px 0}
+.cta-box{border:1px solid var(--line2);border-radius:20px;padding:80px;position:relative;overflow:hidden;background:linear-gradient(135deg,rgba(200,168,75,.08),rgba(255,255,255,.03))}
+.cta-box::before{content:'';position:absolute;top:-100px;right:-100px;width:400px;height:400px;background:radial-gradient(circle,rgba(200,168,75,.06),transparent 70%);pointer-events:none}
+.cta-box::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.5}
+.cta-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.cta-title{font-size:clamp(32px,3vw,48px);font-weight:800;letter-spacing:-1px;line-height:1.15;margin-bottom:16px}
+.cta-sub{font-size:16px;color:var(--gray);line-height:1.8;font-weight:300}
+.cta-form{display:flex;flex-direction:column;gap:14px}
+.cta-input{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:8px;padding:15px 20px;color:var(--white);font-size:14px;outline:none;font-family:'Inter',sans-serif;transition:border-color .2s}
+.cta-input::placeholder{color:var(--gray2)}
+.cta-input:focus{border-color:var(--gold)}
+.cta-agree{font-size:12px;color:var(--gray2);line-height:1.6}
+
+/* ── FOOTER ── */
+footer{background:#181c2e;border-top:1px solid var(--line);padding:64px 0 36px}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;margin-bottom:48px}
+.footer-desc{font-size:14px;color:var(--gray);line-height:1.8;margin-top:20px;max-width:300px;font-weight:300}
+.footer-h{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+.footer-links{display:flex;flex-direction:column;gap:12px}
+.footer-links a{font-size:14px;color:var(--gray);text-decoration:none;transition:color .2s;font-weight:300}
+.footer-links a:hover{color:var(--white)}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;padding-top:32px;border-top:1px solid var(--line);font-size:12px;color:var(--gray2)}
+.footer-bottom a{color:var(--gray2);text-decoration:none;transition:color .2s}
+.footer-bottom a:hover{color:var(--gold)}
+.socials{display:flex;gap:10px}
+.soc{width:36px;height:36px;border:1px solid var(--line);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:15px;cursor:pointer;transition:all .2s;text-decoration:none;color:var(--gray)}
+.soc:hover{border-color:var(--gold);color:var(--gold)}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.reveal.show{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:.1s}
+.reveal-delay-2{transition-delay:.2s}
+.reveal-delay-3{transition-delay:.3s}
+
+/* MOBILE */
+@media(max-width:900px){
+  .wrap{padding:0 24px}
+  .header{padding:0 24px}
+  nav a:not(.nav-btn){display:none}
+  .hero-metrics{grid-template-columns:1fr 1fr}
+  .svc-layout,.tech-layout,.cta-inner{grid-template-columns:1fr;gap:40px}
+  .svc-sticky{position:static}
+  .process-grid,.num-grid{grid-template-columns:1fr 1fr}
+  .cases-grid{grid-template-columns:1fr}
+  .footer-top{grid-template-columns:1fr 1fr;gap:32px}
+  .process-grid::before{display:none}
+  .cta-box{padding:40px 28px}
+}
+
+/* ===== РЕДАКТОР ===== */
+#editBtn{position:fixed;bottom:28px;right:28px;z-index:9000;width:50px;height:50px;
+  border-radius:50%;background:rgba(200,168,75,.18);border:2px solid var(--gold);
+  color:var(--gold);font-size:20px;cursor:pointer;display:flex;align-items:center;
+  justify-content:center;transition:all .2s}
+#editBtn:hover{background:rgba(200,168,75,.35);transform:scale(1.1)}
+
+#pwModal{display:none;position:fixed;inset:0;z-index:9500;
+  background:rgba(7,8,15,.93);backdrop-filter:blur(16px);
+  align-items:center;justify-content:center}
+.pwBox{background:#0e101c;border:1px solid rgba(200,168,75,.3);border-radius:20px;
+  padding:44px;text-align:center;width:360px}
+.pwBox h3{font-family:'Inter',sans-serif;font-size:18px;font-weight:700;
+  color:white;margin-bottom:8px}
+.pwBox p{color:#9095a8;font-size:13px;margin-bottom:24px;font-family:'Inter',sans-serif}
+#pwInput{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(200,168,75,.3);
+  border-radius:10px;padding:13px 18px;color:white;font-size:15px;outline:none;
+  font-family:'Inter',sans-serif;text-align:center;letter-spacing:3px;margin-bottom:12px;
+  box-sizing:border-box}
+#pwInput:focus{border-color:var(--gold)}
+#pwSubmit{width:100%;background:var(--gold);color:#0e101c;border:none;border-radius:10px;
+  padding:13px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif}
+#pwErr{color:#f87171;font-size:13px;margin-top:8px;display:none;font-family:'Inter',sans-serif}
+#pwCancel{display:block;margin-top:10px;color:#6a7085;font-size:13px;cursor:pointer;
+  background:none;border:none;width:100%;font-family:'Inter',sans-serif}
+
+#edToolbar{display:none;position:fixed;top:0;left:0;right:0;z-index:9200;
+  background:#120f00;border-bottom:2px solid var(--gold);padding:0 32px;
+  height:58px;align-items:center;gap:12px;
+  box-shadow:0 4px 20px rgba(200,168,75,.2)}
+.edBadge{background:var(--gold);color:#0e101c;border-radius:6px;padding:4px 12px;
+  font-size:11px;font-weight:700;letter-spacing:1px;font-family:'Inter',sans-serif}
+.edHint{color:rgba(200,168,75,.6);font-size:13px;font-family:'Inter',sans-serif}
+.edBtn{border:1px solid rgba(200,168,75,.3);background:rgba(200,168,75,.1);
+  color:var(--gold);border-radius:8px;padding:7px 16px;font-size:13px;
+  font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s}
+.edBtn:hover{background:rgba(200,168,75,.25)}
+.edBtn.save{background:var(--gold);color:#0e101c;border-color:var(--gold)}
+.edBtn.save:hover{background:var(--gold2)}
+.edBtn.exit{border-color:rgba(248,113,113,.4);color:#f87171;background:rgba(248,113,113,.08)}
+.edBtn.exit:hover{background:#f87171;color:white}
+
+.delBar{display:none;width:100%;background:rgba(248,113,113,.07);
+  border-top:2px dashed rgba(248,113,113,.3);border-bottom:2px dashed rgba(248,113,113,.3);
+  padding:8px 60px;align-items:center;justify-content:space-between;box-sizing:border-box}
+body.edMode .delBar{display:flex!important}
+.delBtn{background:rgba(248,113,113,.18);border:1px solid rgba(248,113,113,.5);
+  color:#f87171;border-radius:8px;padding:5px 14px;font-size:12px;font-weight:700;
+  cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s}
+.delBtn:hover{background:#f87171;color:white}
+.delLabel{font-size:11px;color:rgba(248,113,113,.6);font-family:'Inter',sans-serif}
+
+body.edMode [contenteditable]{
+  outline:1px dashed rgba(200,168,75,.4)!important;border-radius:3px;cursor:text!important}
+body.edMode [contenteditable]:focus{
+  outline:2px solid var(--gold)!important;background:rgba(200,168,75,.06)!important}
+
+</style>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiIgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIj4KICA8cmVjdCB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHJ4PSI3IiBmaWxsPSIjMGUxMDFjIi8+CiAgPHJlY3QgeD0iMiIgeT0iMiIgd2lkdGg9IjI4IiBoZWlnaHQ9IjI4IiByeD0iNS41IiBmaWxsPSJub25lIiBzdHJva2U9IiNjOGE4NGIiIHN0cm9rZS13aWR0aD0iMiIvPgogIDx0ZXh0IHg9IjE2IiB5PSIyMiIgZm9udC1mYW1pbHk9IkFyaWFsIEJsYWNrLCBBcmlhbCIgZm9udC13ZWlnaHQ9IjkwMCIgZm9udC1zaXplPSIxNCIgCiAgICAgICAgZmlsbD0iI2M4YTg0YiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgbGV0dGVyLXNwYWNpbmc9IjAuNSI+R1Q8L3RleHQ+Cjwvc3ZnPg==">
+<link rel="shortcut icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiIgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIj4KICA8cmVjdCB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHJ4PSI3IiBmaWxsPSIjMGUxMDFjIi8+CiAgPHJlY3QgeD0iMiIgeT0iMiIgd2lkdGg9IjI4IiBoZWlnaHQ9IjI4IiByeD0iNS41IiBmaWxsPSJub25lIiBzdHJva2U9IiNjOGE4NGIiIHN0cm9rZS13aWR0aD0iMiIvPgogIDx0ZXh0IHg9IjE2IiB5PSIyMiIgZm9udC1mYW1pbHk9IkFyaWFsIEJsYWNrLCBBcmlhbCIgZm9udC13ZWlnaHQ9IjkwMCIgZm9udC1zaXplPSIxNCIgCiAgICAgICAgZmlsbD0iI2M4YTg0YiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgbGV0dGVyLXNwYWNpbmc9IjAuNSI+R1Q8L3RleHQ+Cjwvc3ZnPg==">
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<!-- HEADER -->
+<header class="header">
+  <a class="logo" href="#">
+    <div class="logo-mark">GT</div>
+    <div class="logo-info">
+      <span class="logo-name">GT-group</span>
+      <span class="logo-sub">Ганиев Тамерлан Групп</span>
+    </div>
+  </a>
+  <nav>
+    <a href="#services">Услуги</a>
+    <a href="#process">Процесс</a>
+    <a href="#cases">Кейсы</a>
+    <a href="#tech">Технологии</a>
+    <a href="#cta" class="nav-btn">Связаться</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-label reveal">AI-решения для бизнеса</div>
+    <h1 class="reveal reveal-delay-1">Трансформируем<br>бизнес с помощью<br><em>искусственного</em><br><em>интеллекта</em></h1>
+    <p class="hero-desc reveal reveal-delay-2">Мы создаём интеллектуальные системы, которые автоматизируют процессы, сокращают издержки и открывают новые возможности для роста вашего бизнеса.</p>
+    <div class="hero-actions reveal reveal-delay-3">
+      <a href="#cta" class="btn-gold">Начать проект →</a>
+      <a href="#cases" class="btn-outline">Смотреть кейсы</a>
+    </div>
+    <div class="hero-metrics reveal">
+      <div class="metric">
+        <span class="metric-val">20+</span>
+        <div class="metric-label">Завершённых проектов</div>
+      </div>
+      <div class="metric">
+        <span class="metric-val">40%</span>
+        <div class="metric-label">Сокращение издержек</div>
+      </div>
+      <div class="metric">
+        <span class="metric-val">14 дн</span>
+        <div class="metric-label">Запуск MVP</div>
+      </div>
+      <div class="metric">
+        <span class="metric-val">₽2.4B</span>
+        <div class="metric-label">Экономия клиентов</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider-gold"></div>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="wrap">
+    <div class="svc-layout">
+      <div class="svc-sticky reveal">
+        <div class="s-label">Услуги</div>
+        <h2 class="s-title">Полный спектр AI-решений</h2>
+        <p class="s-sub">От стратегии внедрения до технической реализации — мы сопровождаем весь путь цифровой трансформации.</p>
+        <div style="margin-top:40px">
+          <a href="#cta" class="btn-gold" style="margin-top:8px">Обсудить задачу →</a>
+        </div>
+      </div>
+      <div>
+        <div class="svc-list reveal">
+          <div class="svc-item">
+            <div class="svc-num">01</div>
+            <div><div class="svc-name">Интеллектуальные чат-боты</div><div class="svc-desc">Разработка AI-ассистентов на базе GPT-4, обученных на данных вашего бизнеса. Автоматизация клиентской поддержки, продаж и внутренних коммуникаций.</div></div>
+            <div class="svc-arrow">→</div>
+          </div>
+          <div class="svc-item">
+            <div class="svc-num">02</div>
+            <div><div class="svc-name">Автоматизация бизнес-процессов</div><div class="svc-desc">Роботизация рутинных операций: обработка документов, интеграция с 1С и CRM, автоматические отчёты и уведомления.</div></div>
+            <div class="svc-arrow">→</div>
+          </div>
+          <div class="svc-item">
+            <div class="svc-num">03</div>
+            <div><div class="svc-name">Аналитика и прогнозирование</div><div class="svc-desc">Построение систем аналитики на основе ML. Прогнозирование спроса, сегментация клиентов, выявление аномалий.</div></div>
+            <div class="svc-arrow">→</div>
+          </div>
+          <div class="svc-item">
+            <div class="svc-num">04</div>
+            <div><div class="svc-name">Корпоративный AI-ассистент</div><div class="svc-desc">Создание внутреннего AI-помощника для сотрудников, обученного на корпоративной базе знаний с учётом требований безопасности.</div></div>
+            <div class="svc-arrow">→</div>
+          </div>
+          <div class="svc-item">
+            <div class="svc-num">05</div>
+            <div><div class="svc-name">AI-маркетинг и генерация контента</div><div class="svc-desc">Автоматизация создания контента, персонализация коммуникаций, умные email-рассылки и оптимизация конверсий.</div></div>
+            <div class="svc-arrow">→</div>
+          </div>
+          </div>
+            <div class="svc-arrow">→</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROCESS -->
+<section class="process" id="process">
+  <div class="wrap">
+    <div style="text-align:center;max-width:580px;margin:0 auto" class="reveal">
+      <div class="s-label" style="justify-content:center">Процесс работы</div>
+      <h2 class="s-title">Чёткая методология<br>внедрения AI</h2>
+      <p class="s-sub" style="margin:0 auto">Проверенный процесс, который гарантирует результат в установленные сроки и без лишних рисков.</p>
+    </div>
+    <div class="process-grid">
+      <div class="proc-item reveal">
+        <div class="proc-step">I</div>
+        <div class="proc-name">Аудит и стратегия</div>
+        <div class="proc-desc">Анализируем текущие процессы, определяем точки максимальной отдачи от AI и формируем дорожную карту.</div>
+      </div>
+      <div class="proc-item reveal reveal-delay-1">
+        <div class="proc-step">II</div>
+        <div class="proc-name">Проектирование</div>
+        <div class="proc-desc">Разрабатываем архитектуру решения, выбираем технологический стек и согласовываем спецификации.</div>
+      </div>
+      <div class="proc-item reveal reveal-delay-2">
+        <div class="proc-step">III</div>
+        <div class="proc-name">Разработка и тестирование</div>
+        <div class="proc-desc">Создаём решение итерационно, проводим нагрузочное тестирование и обучаем модели на ваших данных.</div>
+      </div>
+      <div class="proc-item reveal reveal-delay-3">
+        <div class="proc-step">IV</div>
+        <div class="proc-name">Запуск и поддержка</div>
+        <div class="proc-desc">Плавно переводим в продакшн, проводим обучение команды и обеспечиваем техническое сопровождение.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- NUMBERS -->
+<section class="numbers">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="s-label">Результаты</div>
+      <h2 class="s-title">Цифры, которые<br>говорят сами за себя</h2>
+    </div>
+    <div class="num-grid">
+      <div class="num-item reveal">
+        <span class="num-val">20+</span>
+        <div class="num-title">Реализованных проектов</div>
+        <div class="num-desc">В 12 отраслях — от ритейла до финансовых услуг и производства</div>
+      </div>
+      <div class="num-item reveal reveal-delay-1">
+        <span class="num-val">40%</span>
+        <div class="num-title">Средняя экономия затрат</div>
+        <div class="num-desc">Операционные расходы клиентов снижаются в первые 3 месяца после внедрения</div>
+      </div>
+      <div class="num-item reveal reveal-delay-2">
+        <span class="num-val">14</span>
+        <div class="num-title">Дней до запуска MVP</div>
+        <div class="num-desc">Первый рабочий прототип — через две недели после старта проекта</div>
+      </div>
+      <div class="num-item reveal reveal-delay-3">
+        <span class="num-val">98%</span>
+        <div class="num-title">Клиентов продлевают контракт</div>
+        <div class="num-desc">Долгосрочные партнёрства — лучшее подтверждение качества нашей работы</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CASES -->
+<section class="cases" id="cases">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="s-label">Кейсы</div>
+      <h2 class="s-title">Опыт, подтверждённый<br>реальными результатами</h2>
+      <p class="s-sub">Каждый проект — уникальное решение, разработанное под конкретные задачи бизнеса.</p>
+    </div>
+    <div class="cases-grid">
+      <div class="case-item reveal">
+        <div class="case-sector">Электронная коммерция</div>
+        <div class="case-title">AI-ассистент для онлайн-ритейлера</div>
+        <div class="case-desc">Разработали интеллектуального чат-бота, который консультирует покупателей, обрабатывает возвраты и персонализирует предложения на основе истории покупок.</div>
+        <div class="case-result">
+          <div class="case-res-row"><span>Автоматизация обращений</span><span>85%</span></div>
+          <div class="case-res-row"><span>Рост конверсии</span><span>+34%</span></div>
+          <div class="case-res-row"><span>Снижение затрат на поддержку</span><span>−60%</span></div>
+        </div>
+      </div>
+      <div class="case-item reveal reveal-delay-1">
+        <div class="case-sector">Логистика и доставка</div>
+        <div class="case-title">Оптимизация маршрутов с ML</div>
+        <div class="case-desc">Создали систему динамического планирования маршрутов, учитывающую трафик, погоду, временные окна доставки и приоритеты клиентов в реальном времени.</div>
+        <div class="case-result">
+          <div class="case-res-row"><span>Сокращение расхода топлива</span><span>−28%</span></div>
+          <div class="case-res-row"><span>Скорость доставки</span><span>+41%</span></div>
+          <div class="case-res-row"><span>Удовлетворённость клиентов</span><span>4.9 / 5.0</span></div>
+        </div>
+      </div>
+      <div class="case-item reveal reveal-delay-2">
+        <div class="case-sector">Финансовые услуги</div>
+        <div class="case-title">Система кредитного скоринга</div>
+        <div class="case-desc">Разработали ML-модель оценки кредитоспособности с обработкой более 10 000 заявок в сутки. Модель обучена на альтернативных источниках данных.</div>
+        <div class="case-result">
+          <div class="case-res-row"><span>Точность решений</span><span>+22 п.п.</span></div>
+          <div class="case-res-row"><span>Время рассмотрения</span><span>−75%</span></div>
+          <div class="case-res-row"><span>Снижение просрочки</span><span>−18%</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TECH -->
+<section class="tech" id="tech">
+  <div class="wrap">
+    <div class="tech-layout">
+      <div class="reveal">
+        <div class="s-label">Технологии</div>
+        <h2 class="s-title">Работаем<br>с передовыми<br>AI-платформами</h2>
+        <p class="s-sub" style="margin-top:16px">Выбираем технологический стек исходя из задач клиента — без привязки к конкретному вендору.</p>
+        <div style="margin-top:36px;padding:24px;border:1px solid var(--line2);border-radius:12px;background:var(--gold-dim)">
+          <div style="font-size:12px;font-weight:700;letter-spacing:1px;color:var(--gold);text-transform:uppercase;margin-bottom:10px">Наш принцип</div>
+          <div style="font-size:14px;color:var(--gray);line-height:1.7">Мы используем только проверенные решения с доказанной эффективностью, обеспечивая безопасность данных и соответствие требованиям российского законодательства.</div>
+        </div>
+      </div>
+      <div class="tech-list reveal reveal-delay-1">
+        <div class="tech-row"><div><div class="tech-name">GPT-4o / GPT-4 Turbo</div><div class="tech-cat">Языковые модели</div></div><div class="tech-dot"></div></div>
+        <div class="tech-row"><div><div class="tech-name">Claude 3.5 Sonnet</div><div class="tech-cat">Языковые модели</div></div><div class="tech-dot"></div></div>
+        <div class="tech-row"><div><div class="tech-name">DeepSeek V3 / R1</div><div class="tech-cat">Открытые модели</div></div><div class="tech-dot"></div></div>
+        <div class="tech-row"><div><div class="tech-name">LangChain / LlamaIndex</div><div class="tech-cat">RAG-системы</div></div><div class="tech-dot"></div></div>
+        <div class="tech-row"><div><div class="tech-name">PyTorch / TensorFlow</div><div class="tech-cat">Машинное обучение</div></div><div class="tech-dot"></div></div>
+        <div class="tech-row"><div><div class="tech-name">Pinecone / Weaviate</div><div class="tech-cat">Векторные базы данных</div></div><div class="tech-dot"></div></div>
+        <div class="tech-row"><div><div class="tech-name">Яндекс Cloud / Сбер AI</div><div class="tech-cat">Российские платформы</div></div><div class="tech-dot"></div></div>
+        <div class="tech-row"><div><div class="tech-name">1С / AmoCRM / Bitrix24</div><div class="tech-cat">CRM-интеграции</div></div><div class="tech-dot"></div></div>
+        <div class="tech-row"><div><div class="tech-name">Whisper / ElevenLabs</div><div class="tech-cat">Голос и аудио</div></div><div class="tech-dot"></div></div>
+        <div class="tech-row"><div><div class="tech-name">n8n / Make / Zapier</div><div class="tech-cat">Автоматизация</div></div><div class="tech-dot"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CTA -->
+<section class="cta-section" id="cta">
+  <div class="wrap">
+    <div class="cta-box reveal">
+      <div class="cta-inner">
+        <div>
+          <div class="s-label">Контакт</div>
+          <h2 class="cta-title">Готовы обсудить<br>вашу задачу?</h2>
+          <p class="cta-sub" style="margin-top:16px">Оставьте контакт — мы проведём бесплатный 30-минутный аудит и предложим конкретные AI-решения для вашего бизнеса.</p>
+          <div style="margin-top:36px;display:flex;flex-direction:column;gap:14px">
+            <div style="display:flex;align-items:center;gap:12px;font-size:14px;color:var(--gray)">
+              <span style="color:var(--gold)">✓</span> Бесплатный аудит бизнес-процессов
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;font-size:14px;color:var(--gray)">
+              <span style="color:var(--gold)">✓</span> Ответ в течение 2 часов
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;font-size:14px;color:var(--gray)">
+              <span style="color:var(--gold)">✓</span> NDA по запросу
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="cta-form">
+            <input class="cta-input" type="text" placeholder="Ваше имя"/>
+            <input class="cta-input" type="text" placeholder="Компания"/>
+            <input class="cta-input" type="text" placeholder="Email или телефон"/>
+            <textarea class="cta-input" rows="3" placeholder="Кратко опишите задачу" style="resize:none;font-family:inherit"></textarea>
+            <button class="btn-gold" onclick="this.textContent='✓ Заявка отправлена';this.style.background='#2d6a2d';this.style.color='#fff'" style="justify-content:center">Отправить заявку →</button>
+            <p class="cta-agree">Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности. Ваши данные защищены и не передаются третьим лицам.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div>
+        <a class="logo" href="#" style="text-decoration:none">
+          <div class="logo-mark">GT</div>
+          <div class="logo-info">
+            <span class="logo-name">GT-group</span>
+            <span class="logo-sub">Ганиев Тамерлан Групп</span>
+          </div>
+        </a>
+        <p class="footer-desc">AI-решения для бизнеса нового поколения. Автоматизируем, оптимизируем, масштабируем.</p>
+        
+      </div>
+      <div>
+        <div class="footer-h">Услуги</div>
+        <div class="footer-links">
+          <a href="#">AI-чат-боты</a>
+          <a href="#">Автоматизация</a>
+          <a href="#">Аналитика</a>
+          <a href="#">AI-маркетинг</a>
+          
+        </div>
+      </div>
+      <div>
+        <div class="footer-h">Компания</div>
+        <div class="footer-links">
+          <a href="#">О компании</a>
+          <a href="#">Кейсы</a>
+          
+          
+          
+        </div>
+      </div>
+      <div>
+        <div class="footer-h">Контакты</div>
+        <div class="footer-links">
+          <a href="#">gtgroup.pro@mail.ru</a>
+          
+          <a href="#">Казань, Россия</a>
+          <a href="#">Telegram</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 GT-group — Ганиев Тамерлан Групп</span>
+      <div style="display:flex;gap:24px">
+        <a href="#" onclick="document.getElementById('privacyModal').style.display='block';return false">Политика конфиденциальности</a>
+        <a href="#">Договор оферты</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Scroll reveal
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('show'); io.unobserve(e.target); } });
+}, { threshold: .12 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// Header scroll
+window.addEventListener('scroll', () => {
+  document.querySelector('.header').style.borderBottomColor =
+    window.scrollY > 20 ? 'rgba(200,168,75,.15)' : 'rgba(255,255,255,.07)';
+});
+</script>
+
+<!-- КНОПКА РЕДАКТОРА -->
+<button id="editBtn" title="Редактировать сайт" style="display:none">✏️</button>
+
+<!-- МОДАЛКА ПАРОЛЯ -->
+<div id="pwModal" style="display:none;position:fixed;inset:0;z-index:9500;background:rgba(7,8,15,.93);backdrop-filter:blur(16px);align-items:center;justify-content:center">
+  <div class="pwBox">
+    <div style="font-size:40px;margin-bottom:16px">🔐</div>
+    <h3>Редактор сайта</h3>
+    <p>Введите пароль для входа</p>
+    <input id="pwInput" type="password" placeholder="••••••••" />
+    <div id="pwErr" style="display:none;color:#f87171;font-size:13px;margin-bottom:8px;font-family:Inter,sans-serif">Неверный пароль</div>
+    <button id="pwSubmit" onclick="ED.check()">Войти</button>
+    <button id="pwCancel" onclick="ED.close()">Отмена</button>
+  </div>
+</div>
+
+<!-- ТУЛБАР -->
+<div id="edToolbar">
+  <span class="edBadge">✏️ РЕДАКТОР</span>
+  <span class="edHint">Кликайте на текст для изменения</span>
+  <div style="margin-left:auto;display:flex;gap:10px">
+    <button class="edBtn" onclick="ED.addBlock()">+ Блок</button>
+    <button class="edBtn save" onclick="ED.save()">💾 Сохранить</button>
+    <button class="edBtn exit" onclick="ED.exit()">✕ Выйти</button>
+  </div>
+</div>
+
+<script>
+var ED = {
+  pw: "tgk2025",
+  active: false,
+
+  open: function() {
+    document.getElementById("pwModal").style.display = "flex";
+    setTimeout(function(){ document.getElementById("pwInput").focus(); }, 100);
+  },
+
+  close: function() {
+    document.getElementById("pwModal").style.display = "none";
+    document.getElementById("pwInput").value = "";
+    document.getElementById("pwErr").style.display = "none";
+  },
+
+  check: function() {
+    var v = document.getElementById("pwInput").value;
+    if (v !== ED.pw) {
+      document.getElementById("pwErr").style.display = "block";
+      document.getElementById("pwInput").value = "";
+      return;
+    }
+    ED.close();
+    ED.start();
+  },
+
+  start: function() {
+    ED.active = true;
+    document.body.classList.add("edMode");
+    document.getElementById("edToolbar").style.display = "flex";
+    document.getElementById("editBtn").style.display = "none";
+    document.body.style.paddingTop = "58px";
+
+    // Редактируемый текст
+    var sel = "h1,h2,h3,h4,p,.s-title,.s-sub,.hero-desc,.svc-name,.svc-desc,.proc-name,.proc-desc,.num-title,.num-desc,.num-val,.case-title,.case-desc,.case-sector,.tech-name,.cta-title,.cta-sub";
+    var els = document.querySelectorAll(sel);
+    for (var i = 0; i < els.length; i++) {
+      els[i].contentEditable = "true";
+      els[i].spellcheck = false;
+    }
+
+    // Кнопки удаления для каждой секции
+    var secs = document.querySelectorAll("section");
+    for (var j = 0; j < secs.length; j++) {
+      ED.addDelBar(secs[j]);
+    }
+    ED.toast("Редактор активен! Нажмите на любой текст.");
+  },
+
+  addDelBar: function(sec) {
+    if (sec.querySelector(".delBar")) return;
+    var t = sec.querySelector("h2,h1,.s-title");
+    var name = t ? t.textContent.trim().slice(0, 30) : "Блок";
+
+    var bar = document.createElement("div");
+    bar.className = "delBar";
+
+    var lbl = document.createElement("span");
+    lbl.className = "delLabel";
+    lbl.textContent = "✏️ " + name;
+
+    var btn = document.createElement("button");
+    btn.className = "delBtn";
+    btn.textContent = "🗑 Удалить блок";
+    btn.setAttribute("data-sec", "1");
+
+    // Важно: используем замыкание правильно
+    (function(s, n) {
+      btn.onclick = function() {
+        if (!confirm("Удалить блок «" + n + "»?")) return;
+        s.style.transition = "opacity .3s,transform .3s";
+        s.style.opacity = "0";
+        s.style.transform = "translateY(-10px)";
+        setTimeout(function() { s.remove(); ED.toast("Блок удалён!"); }, 300);
+      };
+    })(sec, name);
+
+    bar.appendChild(lbl);
+    bar.appendChild(btn);
+    sec.insertBefore(bar, sec.firstChild);
+  },
+
+  exit: function() {
+    if (!confirm("Выйти? Несохранённые изменения будут потеряны.")) return;
+    ED.active = false;
+    document.body.classList.remove("edMode");
+    document.getElementById("edToolbar").style.display = "none";
+    document.getElementById("editBtn").style.display = "flex";
+    document.body.style.paddingTop = "";
+    var els = document.querySelectorAll("[contenteditable]");
+    for (var i = 0; i < els.length; i++) els[i].removeAttribute("contenteditable");
+    var bars = document.querySelectorAll(".delBar");
+    for (var j = 0; j < bars.length; j++) bars[j].remove();
+  },
+
+  addBlock: function() {
+    var name = prompt("Название нового блока:");
+    if (!name) return;
+    var sec = document.createElement("section");
+    sec.style.cssText = "padding:80px 0;text-align:center";
+    var wrap = document.createElement("div");
+    wrap.className = "wrap";
+    var h2 = document.createElement("h2");
+    h2.className = "s-title"; h2.contentEditable = "true";
+    h2.textContent = name;
+    var p = document.createElement("p");
+    p.className = "s-sub"; p.contentEditable = "true";
+    p.style.cssText = "margin:16px auto;max-width:560px";
+    p.textContent = "Описание блока — нажмите чтобы изменить";
+    wrap.appendChild(h2); wrap.appendChild(p);
+    sec.appendChild(wrap);
+    document.querySelector("footer").before(sec);
+    ED.addDelBar(sec);
+    sec.scrollIntoView({ behavior: "smooth" });
+    ED.toast("✅ Блок добавлен!");
+  },
+
+  save: function() {
+    var tb = document.getElementById("edToolbar");
+    var eb = document.getElementById("editBtn");
+    var bars = document.querySelectorAll(".delBar");
+    var edels = document.querySelectorAll("[contenteditable]");
+
+    // Прячем UI
+    tb.style.display = "none";
+    eb.style.display = "none";
+    document.body.style.paddingTop = "";
+    for (var i = 0; i < bars.length; i++) bars[i].style.display = "none";
+    for (var j = 0; j < edels.length; j++) edels[j].removeAttribute("contenteditable");
+
+    var html = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+
+    // Восстанавливаем UI
+    for (var k = 0; k < edels.length; k++) edels[k].contentEditable = "true";
+    for (var l = 0; l < bars.length; l++) bars[l].style.display = "";
+    if (ED.active) { tb.style.display = "flex"; document.body.style.paddingTop = "58px"; }
+    eb.style.display = ED.active ? "none" : "flex";
+
+    var blob = new Blob([html], {type:"text/html;charset=utf-8"});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url; a.download = "tgk-site.html";
+    document.body.appendChild(a); a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    ED.toast("✅ Файл tgk-site.html сохранён!");
+  },
+
+  toast: function(msg) {
+    var t = document.createElement("div");
+    t.style.cssText = "position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:#120f00;border:1px solid rgba(200,168,75,.4);color:#f0f2f8;padding:11px 22px;border-radius:10px;font-size:13px;z-index:9999;font-family:Inter,sans-serif;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.4)";
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(function(){ t.style.opacity="0"; t.style.transition="opacity .3s"; }, 2500);
+    setTimeout(function(){ if(t.parentNode) t.parentNode.removeChild(t); }, 3000);
+  }
+};
+
+document.getElementById("pwInput").onkeydown = function(e) {
+  if (e.key === "Enter") ED.check();
+};
+</script>
+
+
+<!-- ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ -->
+<div id="privacyModal" style="display:none;position:fixed;inset:0;z-index:8000;background:rgba(7,8,15,.95);backdrop-filter:blur(16px);overflow-y:auto;padding:40px 20px">
+  <div style="max-width:760px;margin:0 auto;background:#0e101c;border:1px solid rgba(200,168,75,.2);border-radius:20px;padding:48px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:32px">
+      <h2 style="font-family:'Playfair Display',serif;font-size:28px;color:#f0f2f8">Политика конфиденциальности</h2>
+      <button onclick="document.getElementById('privacyModal').style.display='none'" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);color:white;border-radius:8px;width:36px;height:36px;cursor:pointer;font-size:18px">✕</button>
+    </div>
+    <div style="font-family:'Inter',sans-serif;font-size:14px;color:#9095a8;line-height:1.8">
+      <p style="margin-bottom:16px"><strong style="color:#f0f2f8">Дата последнего обновления:</strong> Январь 2025</p>
+      <h3 style="color:#c8a84b;font-size:16px;margin:24px 0 10px">1. Общие положения</h3>
+      <p>GT-group (Ганиев Тамерлан Групп) уважает конфиденциальность пользователей и обязуется защищать их персональные данные. Настоящая Политика конфиденциальности описывает, как мы собираем, используем и защищаем информацию.</p>
+      <h3 style="color:#c8a84b;font-size:16px;margin:24px 0 10px">2. Сбор информации</h3>
+      <p>Мы можем собирать следующие данные: имя, email, номер телефона, название компании — только при добровольном заполнении форм обратной связи на сайте.</p>
+      <h3 style="color:#c8a84b;font-size:16px;margin:24px 0 10px">3. Использование данных</h3>
+      <p>Собранные данные используются исключительно для: обработки заявок, связи с потенциальными клиентами, улучшения качества наших услуг. Мы не передаём данные третьим лицам без вашего согласия.</p>
+      <h3 style="color:#c8a84b;font-size:16px;margin:24px 0 10px">4. Cookies</h3>
+      <p>Сайт может использовать технологию cookies для улучшения работы. Вы можете отключить cookies в настройках браузера.</p>
+      <h3 style="color:#c8a84b;font-size:16px;margin:24px 0 10px">5. Защита данных</h3>
+      <p>Мы применяем технические и организационные меры для защиты ваших персональных данных от несанкционированного доступа, изменения или уничтожения.</p>
+      <h3 style="color:#c8a84b;font-size:16px;margin:24px 0 10px">6. Контакты</h3>
+      <p>По вопросам политики конфиденциальности: <a href="mailto:gtgroup.pro@mail.ru" style="color:#c8a84b">gtgroup.pro@mail.ru</a></p>
+      <p style="margin-top:24px;color:#5a5f6e;font-size:12px">Используя сайт gtgroup.pro, вы соглашаетесь с настоящей политикой конфиденциальности.</p>
+    </div>
+  </div>
+</div>
+
+
+<script>
+// Секретный хоткей для редактора — нажми G затем T
+(function(){
+  var seq = [];
+  var code = ['g','t'];
+  document.addEventListener('keydown', function(e){
+    seq.push(e.key.toLowerCase());
+    if(seq.length > 2) seq.shift();
+    if(seq.join('') === code.join('')){
+      var btn = document.getElementById('editBtn');
+      if(btn){
+        btn.style.display = 'flex';
+        btn.style.position = 'fixed';
+        btn.style.bottom = '28px';
+        btn.style.right = '28px';
+        btn.style.zIndex = '9000';
+      }
+      seq = [];
+    }
+  });
+})();
+</script>
 
 </body>
 </html>
