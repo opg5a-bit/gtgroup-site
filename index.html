@@ -816,6 +816,7 @@ document.getElementById("pwInput").onkeydown = function(e) {
 </script>
 
 
+
 <script>
 function gtSend(b){
   var f=document.querySelectorAll(".cta-input");
@@ -824,31 +825,42 @@ function gtSend(b){
   var ct=f[2]?f[2].value.trim():"";
   var t=f[3]?f[3].value.trim():"";
   if(!n&&!ct){alert("Заполните имя и контакт");return;}
-  var msg="Заявка с gtgroup.pro!\n\n";
-  if(n)msg+="Имя: "+n+"\n";
-  if(co)msg+="Компания: "+co+"\n";
-  if(ct)msg+="Контакт: "+ct+"\n";
-  if(t)msg+="Задача: "+t+"\n";
-  msg+="Сайт: gtgroup.pro";
   b.disabled=true;
   b.textContent="Отправляем...";
-  fetch("https://tg-proxy.opg5a.workers.dev",{
+  fetch("https://api.web3forms.com/submit",{
     method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({text:msg})
+    headers:{"Content-Type":"application/json","Accept":"application/json"},
+    body:JSON.stringify({
+      access_key:"c7675025-1ae7-4f7e-b3e0-e2704b247519",
+      subject:"Новая заявка с gtgroup.pro",
+      from_name:"GT-group сайт",
+      name:n||"Не указано",
+      company:co||"",
+      contact:ct||"Не указано",
+      task:t||"",
+      message:"Имя: "+(n||"-")+"\nКомпания: "+(co||"-")+"\nКонтакт: "+(ct||"-")+"\nЗадача: "+(t||"-")+"\n\nСайт: gtgroup.pro"
+    })
   })
   .then(function(r){return r.json();})
   .then(function(d){
-    b.textContent=d.ok?"Заявка отправлена!":"Заявка принята!";
-    b.style.background="#1a4a1a";b.style.color="#fff";
-    for(var i=0;i<f.length;i++)f[i].value="";
-    setTimeout(function(){b.textContent="Отправить заявку →";b.style.background="";b.style.color="";b.disabled=false;},4000);
+    if(d.success){
+      b.textContent="Заявка отправлена!";
+      b.style.background="#1a4a1a";b.style.color="#fff";
+      for(var i=0;i<f.length;i++)f[i].value="";
+    }else{
+      b.textContent="Ошибка — пишите @gtgrouppro";
+      b.style.background="#4a1a1a";b.style.color="#fff";
+      b.disabled=false;
+    }
+    setTimeout(function(){
+      b.textContent="Отправить заявку →";
+      b.style.background="";b.style.color="";b.disabled=false;
+    },4000);
   })
   .catch(function(){
-    b.textContent="Заявка принята!";
-    b.style.background="#1a4a1a";b.style.color="#fff";
-    for(var i=0;i<f.length;i++)f[i].value="";
-    setTimeout(function(){b.textContent="Отправить заявку →";b.style.background="";b.style.color="";b.disabled=false;},4000);
+    b.textContent="Ошибка соединения";
+    b.style.background="#4a1a1a";b.style.color="#fff";
+    b.disabled=false;
   });
 }
 </script>
@@ -1133,6 +1145,7 @@ document.getElementById("pwInput").onkeydown = function(e) {
 </script>
 
 
+
 <script>
 function gtSend(b){
   var f=document.querySelectorAll(".cta-input");
@@ -1141,31 +1154,42 @@ function gtSend(b){
   var ct=f[2]?f[2].value.trim():"";
   var t=f[3]?f[3].value.trim():"";
   if(!n&&!ct){alert("Заполните имя и контакт");return;}
-  var msg="Заявка с gtgroup.pro!\n\n";
-  if(n)msg+="Имя: "+n+"\n";
-  if(co)msg+="Компания: "+co+"\n";
-  if(ct)msg+="Контакт: "+ct+"\n";
-  if(t)msg+="Задача: "+t+"\n";
-  msg+="Сайт: gtgroup.pro";
   b.disabled=true;
   b.textContent="Отправляем...";
-  fetch("https://tg-proxy.opg5a.workers.dev",{
+  fetch("https://api.web3forms.com/submit",{
     method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({text:msg})
+    headers:{"Content-Type":"application/json","Accept":"application/json"},
+    body:JSON.stringify({
+      access_key:"c7675025-1ae7-4f7e-b3e0-e2704b247519",
+      subject:"Новая заявка с gtgroup.pro",
+      from_name:"GT-group сайт",
+      name:n||"Не указано",
+      company:co||"",
+      contact:ct||"Не указано",
+      task:t||"",
+      message:"Имя: "+(n||"-")+"\nКомпания: "+(co||"-")+"\nКонтакт: "+(ct||"-")+"\nЗадача: "+(t||"-")+"\n\nСайт: gtgroup.pro"
+    })
   })
   .then(function(r){return r.json();})
   .then(function(d){
-    b.textContent=d.ok?"Заявка отправлена!":"Заявка принята!";
-    b.style.background="#1a4a1a";b.style.color="#fff";
-    for(var i=0;i<f.length;i++)f[i].value="";
-    setTimeout(function(){b.textContent="Отправить заявку →";b.style.background="";b.style.color="";b.disabled=false;},4000);
+    if(d.success){
+      b.textContent="Заявка отправлена!";
+      b.style.background="#1a4a1a";b.style.color="#fff";
+      for(var i=0;i<f.length;i++)f[i].value="";
+    }else{
+      b.textContent="Ошибка — пишите @gtgrouppro";
+      b.style.background="#4a1a1a";b.style.color="#fff";
+      b.disabled=false;
+    }
+    setTimeout(function(){
+      b.textContent="Отправить заявку →";
+      b.style.background="";b.style.color="";b.disabled=false;
+    },4000);
   })
   .catch(function(){
-    b.textContent="Заявка принята!";
-    b.style.background="#1a4a1a";b.style.color="#fff";
-    for(var i=0;i<f.length;i++)f[i].value="";
-    setTimeout(function(){b.textContent="Отправить заявку →";b.style.background="";b.style.color="";b.disabled=false;},4000);
+    b.textContent="Ошибка соединения";
+    b.style.background="#4a1a1a";b.style.color="#fff";
+    b.disabled=false;
   });
 }
 </script>
