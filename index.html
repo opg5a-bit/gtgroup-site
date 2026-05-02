@@ -815,6 +815,7 @@ document.getElementById("pwInput").onkeydown = function(e) {
 })();
 </script>
 
+
 <script>
 function gtSend(b){
   var f=document.querySelectorAll(".cta-input");
@@ -831,19 +832,24 @@ function gtSend(b){
   msg+="Сайт: gtgroup.pro";
   b.disabled=true;
   b.textContent="Отправляем...";
-  var ok=false;
-  function done(){
-    if(ok)return;ok=true;
-    b.textContent="Заявка отправлена!";
-    b.style.background="#1a4a1a";
-    b.style.color="#fff";
+  fetch("https://tg-proxy.opg5a.workers.dev",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({text:msg})
+  })
+  .then(function(r){return r.json();})
+  .then(function(d){
+    b.textContent=d.ok?"Заявка отправлена!":"Заявка принята!";
+    b.style.background="#1a4a1a";b.style.color="#fff";
     for(var i=0;i<f.length;i++)f[i].value="";
     setTimeout(function(){b.textContent="Отправить заявку →";b.style.background="";b.style.color="";b.disabled=false;},4000);
-  }
-  var img=new Image();
-  img.onload=img.onerror=done;
-  img.src="https://api.telegram.org/bot8788839043:AAHI5zqIzo73uDx6ZMSHfxf6dJeNTQczbI0/sendMessage?chat_id=7610146999&text="+encodeURIComponent(msg);
-  setTimeout(done,8000);
+  })
+  .catch(function(){
+    b.textContent="Заявка принята!";
+    b.style.background="#1a4a1a";b.style.color="#fff";
+    for(var i=0;i<f.length;i++)f[i].value="";
+    setTimeout(function(){b.textContent="Отправить заявку →";b.style.background="";b.style.color="";b.disabled=false;},4000);
+  });
 }
 </script>
 </body>
@@ -1126,6 +1132,7 @@ document.getElementById("pwInput").onkeydown = function(e) {
 })();
 </script>
 
+
 <script>
 function gtSend(b){
   var f=document.querySelectorAll(".cta-input");
@@ -1142,19 +1149,24 @@ function gtSend(b){
   msg+="Сайт: gtgroup.pro";
   b.disabled=true;
   b.textContent="Отправляем...";
-  var ok=false;
-  function done(){
-    if(ok)return;ok=true;
-    b.textContent="Заявка отправлена!";
-    b.style.background="#1a4a1a";
-    b.style.color="#fff";
+  fetch("https://tg-proxy.opg5a.workers.dev",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({text:msg})
+  })
+  .then(function(r){return r.json();})
+  .then(function(d){
+    b.textContent=d.ok?"Заявка отправлена!":"Заявка принята!";
+    b.style.background="#1a4a1a";b.style.color="#fff";
     for(var i=0;i<f.length;i++)f[i].value="";
     setTimeout(function(){b.textContent="Отправить заявку →";b.style.background="";b.style.color="";b.disabled=false;},4000);
-  }
-  var img=new Image();
-  img.onload=img.onerror=done;
-  img.src="https://api.telegram.org/bot8788839043:AAHI5zqIzo73uDx6ZMSHfxf6dJeNTQczbI0/sendMessage?chat_id=7610146999&text="+encodeURIComponent(msg);
-  setTimeout(done,8000);
+  })
+  .catch(function(){
+    b.textContent="Заявка принята!";
+    b.style.background="#1a4a1a";b.style.color="#fff";
+    for(var i=0;i<f.length;i++)f[i].value="";
+    setTimeout(function(){b.textContent="Отправить заявку →";b.style.background="";b.style.color="";b.disabled=false;},4000);
+  });
 }
 </script>
 </body>
