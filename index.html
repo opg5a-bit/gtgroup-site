@@ -345,8 +345,6 @@ footer { margin-bottom: 0 !important; padding-bottom: 30px !important; }
 </div>
 </div>
 </div>
-
-
 </section>
 <div class="divider"></div>
 <!-- PROCESS -->
@@ -513,7 +511,7 @@ footer { margin-bottom: 0 !important; padding-bottom: 30px !important; }
 <input class="cta-input" placeholder="Компания" type="text"/>
 <input class="cta-input" placeholder="Email или телефон" type="text"/>
 <textarea class="cta-input" placeholder="Кратко опишите задачу" rows="3" style="resize:none;font-family:inherit"></textarea>
-<button onclick="sendForm(this)" class="btn-gold" style="justify-content:center">Отправить заявку →</button>
+<button class="btn-gold" onclick="gtSend(this)" style="justify-content:center">Отправить заявку →</button>
 <p class="cta-agree">Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности. Ваши данные защищены и не передаются третьим лицам.</p>
 </div>
 </div>
@@ -816,71 +814,48 @@ document.getElementById("pwInput").onkeydown = function(e) {
   });
 })();
 </script>
-
-
-
-
-
-
 <script>
-function sendForm(btn) {
-  var inputs = document.querySelectorAll('.cta-input');
-  var vals = Array.from(inputs).map(function(i) { return i.value.trim(); });
-  var labels = ['Имя', 'Компания', 'Контакт', 'Задача'];
+function gtSend(btn) {
+  var f = document.querySelectorAll('.cta-input');
+  var v = [];
+  for(var i=0;i<f.length;i++) v.push(f[i].value.trim());
+  if(!v[0]&&!v[2]){alert('Заполните имя и контакт');return;}
 
-  if (!vals[0] && !vals[2]) {
-    alert('Заполните имя и контакт');
-    return;
+  var msg = 'Заявка с gtgroup.pro
+
+';
+  var lb = ['Имя','Компания','Контакт','Задача'];
+  for(var j=0;j<v.length;j++){if(v[j])msg+=lb[j]+': '+v[j]+'
+';}
+  msg+='Сайт: gtgroup.pro';
+
+  btn.disabled=true;
+  btn.textContent='Отправляем...';
+
+  var done=false;
+  function finish(){
+    if(done)return; done=true;
+    btn.textContent='Заявка отправлена!';
+    btn.style.background='#1a4a1a';
+    btn.style.color='#fff';
+    for(var k=0;k<f.length;k++)f[k].value='';
+    setTimeout(function(){
+      btn.textContent='Отправить заявку →';
+      btn.style.background='';
+      btn.style.color='';
+      btn.disabled=false;
+    },4000);
   }
 
-  var text = '🔔 Новая заявка с gtgroup.pro!\n\n';
-  vals.forEach(function(v, i) { if (v) text += labels[i] + ': ' + v + '\n'; });
-  text += '\nСайт: gtgroup.pro';
-
-  btn.disabled = true;
-  btn.textContent = '⏳ Отправляем...';
-
-  // GET запрос через Image — работает без CORS и без блокировок
-  var url = 'https://api.telegram.org/bot8788839043:AAHI5zqIzo73uDx6ZMSHfxf6dJeNTQczbI0/sendMessage?chat_id=7610146999&text=' + encodeURIComponent(text);
-  
-  var img = new Image();
-  var done = false;
-
-  function onDone(success) {
-    if (done) return;
-    done = true;
-    if (success) {
-      btn.textContent = '✅ Заявка отправлена!';
-      btn.style.background = '#1a4a1a';
-      btn.style.color = '#fff';
-      inputs.forEach(function(i) { i.value = ''; });
-    } else {
-      btn.textContent = '✅ Заявка принята!';
-      btn.style.background = '#1a4a1a';
-      btn.style.color = '#fff';
-      inputs.forEach(function(i) { i.value = ''; });
-    }
-    setTimeout(function() {
-      btn.textContent = 'Отправить заявку →';
-      btn.style.background = '';
-      btn.style.color = '';
-      btn.disabled = false;
-    }, 4000);
-  }
-
-  img.onload = function() { onDone(true); };
-  img.onerror = function() { onDone(true); }; // Telegram возвращает JSON, не картинку — это нормально
-  img.src = url;
-
-  // Таймаут 8 секунд
-  setTimeout(function() { onDone(false); }, 8000);
+  var img=new Image();
+  img.onload=img.onerror=finish;
+  img.src='https://api.telegram.org/bot8788839043:AAHI5zqIzo73uDx6ZMSHfxf6dJeNTQczbI0/sendMessage?chat_id=7610146999&text='+encodeURIComponent(msg);
+  setTimeout(finish,8000);
 }
 </script>
 </body>
-
 <link href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiIgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIj4KICA8cmVjdCB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHJ4PSI3IiBmaWxsPSIjMGUxMDFjIi8+CiAgPHJlY3QgeD0iMiIgeT0iMiIgd2lkdGg9IjI4IiBoZWlnaHQ9IjI4IiByeD0iNS41IiBmaWxsPSJub25lIiBzdHJva2U9IiNjOGE4NGIiIHN0cm9rZS13aWR0aD0iMiIvPgogIDx0ZXh0IHg9IjE2IiB5PSIyMiIgZm9udC1mYW1pbHk9IkFyaWFsIEJsYWNrLCBBcmlhbCIgZm9udC13ZWlnaHQ9IjkwMCIgZm9udC1zaXplPSIxNCIgCiAgICAgICAgZmlsbD0iI2M4YTg0YiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgbGV0dGVyLXNwYWNpbmc9IjAuNSI+R1Q8L3RleHQ+Cjwvc3ZnPg==" rel="icon" type="image/svg+xml"/>
 <link href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiIgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIj4KICA8cmVjdCB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHJ4PSI3IiBmaWxsPSIjMGUxMDFjIi8+CiAgPHJlY3QgeD0iMiIgeT0iMiIgd2lkdGg9IjI4IiBoZWlnaHQ9IjI4IiByeD0iNS41IiBmaWxsPSJub25lIiBzdHJva2U9IiNjOGE4NGIiIHN0cm9rZS13aWR0aD0iMiIvPgogIDx0ZXh0IHg9IjE2IiB5PSIyMiIgZm9udC1mYW1pbHk9IkFyaWFsIEJsYWNrLCBBcmlhbCIgZm9udC13ZWlnaHQ9IjkwMCIgZm9udC1zaXplPSIxNCIgCiAgICAgICAgZmlsbD0iI2M4YTg0YiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgbGV0dGVyLXNwYWNpbmc9IjAuNSI+R1Q8L3RleHQ+Cjwvc3ZnPg==" rel="shortcut icon" type="image/svg+xml"/>
-
 <body>
 <div class="grid-bg"></div>
 <!-- HEADER -->
@@ -901,27 +876,15 @@ function sendForm(btn) {
 </nav>
 </header>
 <!-- HERO -->
-
 <div class="divider-gold"></div>
 <!-- SERVICES -->
-
 <div class="divider"></div>
 <!-- PROCESS -->
-
-
 <!-- NUMBERS -->
-
-
 <!-- CASES -->
-
-
 <!-- TECH -->
-
-
 <!-- CTA -->
-
 <!-- FOOTER -->
-
 <script>
 // Scroll reveal
 const io = new IntersectionObserver(entries => {
@@ -1169,64 +1132,43 @@ document.getElementById("pwInput").onkeydown = function(e) {
   });
 })();
 </script>
-
-
-
-
-
-
 <script>
-function sendForm(btn) {
-  var inputs = document.querySelectorAll('.cta-input');
-  var vals = Array.from(inputs).map(function(i) { return i.value.trim(); });
-  var labels = ['Имя', 'Компания', 'Контакт', 'Задача'];
+function gtSend(btn) {
+  var f = document.querySelectorAll('.cta-input');
+  var v = [];
+  for(var i=0;i<f.length;i++) v.push(f[i].value.trim());
+  if(!v[0]&&!v[2]){alert('Заполните имя и контакт');return;}
 
-  if (!vals[0] && !vals[2]) {
-    alert('Заполните имя и контакт');
-    return;
+  var msg = 'Заявка с gtgroup.pro
+
+';
+  var lb = ['Имя','Компания','Контакт','Задача'];
+  for(var j=0;j<v.length;j++){if(v[j])msg+=lb[j]+': '+v[j]+'
+';}
+  msg+='Сайт: gtgroup.pro';
+
+  btn.disabled=true;
+  btn.textContent='Отправляем...';
+
+  var done=false;
+  function finish(){
+    if(done)return; done=true;
+    btn.textContent='Заявка отправлена!';
+    btn.style.background='#1a4a1a';
+    btn.style.color='#fff';
+    for(var k=0;k<f.length;k++)f[k].value='';
+    setTimeout(function(){
+      btn.textContent='Отправить заявку →';
+      btn.style.background='';
+      btn.style.color='';
+      btn.disabled=false;
+    },4000);
   }
 
-  var text = '🔔 Новая заявка с gtgroup.pro!\n\n';
-  vals.forEach(function(v, i) { if (v) text += labels[i] + ': ' + v + '\n'; });
-  text += '\nСайт: gtgroup.pro';
-
-  btn.disabled = true;
-  btn.textContent = '⏳ Отправляем...';
-
-  // GET запрос через Image — работает без CORS и без блокировок
-  var url = 'https://api.telegram.org/bot8788839043:AAHI5zqIzo73uDx6ZMSHfxf6dJeNTQczbI0/sendMessage?chat_id=7610146999&text=' + encodeURIComponent(text);
-  
-  var img = new Image();
-  var done = false;
-
-  function onDone(success) {
-    if (done) return;
-    done = true;
-    if (success) {
-      btn.textContent = '✅ Заявка отправлена!';
-      btn.style.background = '#1a4a1a';
-      btn.style.color = '#fff';
-      inputs.forEach(function(i) { i.value = ''; });
-    } else {
-      btn.textContent = '✅ Заявка принята!';
-      btn.style.background = '#1a4a1a';
-      btn.style.color = '#fff';
-      inputs.forEach(function(i) { i.value = ''; });
-    }
-    setTimeout(function() {
-      btn.textContent = 'Отправить заявку →';
-      btn.style.background = '';
-      btn.style.color = '';
-      btn.disabled = false;
-    }, 4000);
-  }
-
-  img.onload = function() { onDone(true); };
-  img.onerror = function() { onDone(true); }; // Telegram возвращает JSON, не картинку — это нормально
-  img.src = url;
-
-  // Таймаут 8 секунд
-  setTimeout(function() { onDone(false); }, 8000);
+  var img=new Image();
+  img.onload=img.onerror=finish;
+  img.src='https://api.telegram.org/bot8788839043:AAHI5zqIzo73uDx6ZMSHfxf6dJeNTQczbI0/sendMessage?chat_id=7610146999&text='+encodeURIComponent(msg);
+  setTimeout(finish,8000);
 }
 </script>
 </body>
