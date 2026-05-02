@@ -819,6 +819,7 @@ document.getElementById("pwInput").onkeydown = function(e) {
 
 
 
+
 <script>
 function sendForm(btn) {
   var inputs = document.querySelectorAll('.cta-input');
@@ -833,35 +834,24 @@ function sendForm(btn) {
   btn.disabled = true;
   btn.textContent = '⏳ Отправляем...';
 
-  // Таймаут 5 секунд
-  var controller = new AbortController();
-  var timeout = setTimeout(function() { controller.abort(); }, 5000);
-
-  fetch('https://api.telegram.org/bot8788839043:AAHI5zqIzo73uDx6ZMSHfxf6dJeNTQczbI0/sendMessage', {
+  fetch('https://gtgroup.pro/api/telegram', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({ chat_id: '7610146999', text: text }),
-    signal: controller.signal
+    body: JSON.stringify({ text: text })
   })
-  .then(function(res) { clearTimeout(timeout); return res.json(); })
+  .then(function(r) { return r.json(); })
   .then(function(d) {
     if (d.ok) {
       btn.textContent = '✅ Заявка отправлена!';
-      btn.style.background = '#1a4a1a';
-      btn.style.color = '#fff';
+      btn.style.background = '#1a4a1a'; btn.style.color = '#fff';
       inputs.forEach(function(i) { i.value = ''; });
-    } else {
-      throw new Error('bot error');
-    }
+    } else { throw new Error(); }
   })
   .catch(function() {
-    clearTimeout(timeout);
-    // Если не работает — отправляем через Telegram ссылку
-    var tgText = encodeURIComponent(text);
-    window.open('https://t.me/gtgrouppro?text=' + tgText, '_blank');
-    btn.textContent = '✅ Открываем Telegram';
-    btn.style.background = '#c8a84b';
-    btn.style.color = '#0e101c';
+    var t = encodeURIComponent(text);
+    window.open('https://t.me/gtgrouppro?text=' + t, '_blank');
+    btn.textContent = '💬 Написали в Telegram';
+    btn.style.background = '#c8a84b'; btn.style.color = '#0e101c';
     btn.disabled = false;
     inputs.forEach(function(i) { i.value = ''; });
   });
@@ -1163,6 +1153,7 @@ document.getElementById("pwInput").onkeydown = function(e) {
 
 
 
+
 <script>
 function sendForm(btn) {
   var inputs = document.querySelectorAll('.cta-input');
@@ -1177,35 +1168,24 @@ function sendForm(btn) {
   btn.disabled = true;
   btn.textContent = '⏳ Отправляем...';
 
-  // Таймаут 5 секунд
-  var controller = new AbortController();
-  var timeout = setTimeout(function() { controller.abort(); }, 5000);
-
-  fetch('https://api.telegram.org/bot8788839043:AAHI5zqIzo73uDx6ZMSHfxf6dJeNTQczbI0/sendMessage', {
+  fetch('https://gtgroup.pro/api/telegram', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({ chat_id: '7610146999', text: text }),
-    signal: controller.signal
+    body: JSON.stringify({ text: text })
   })
-  .then(function(res) { clearTimeout(timeout); return res.json(); })
+  .then(function(r) { return r.json(); })
   .then(function(d) {
     if (d.ok) {
       btn.textContent = '✅ Заявка отправлена!';
-      btn.style.background = '#1a4a1a';
-      btn.style.color = '#fff';
+      btn.style.background = '#1a4a1a'; btn.style.color = '#fff';
       inputs.forEach(function(i) { i.value = ''; });
-    } else {
-      throw new Error('bot error');
-    }
+    } else { throw new Error(); }
   })
   .catch(function() {
-    clearTimeout(timeout);
-    // Если не работает — отправляем через Telegram ссылку
-    var tgText = encodeURIComponent(text);
-    window.open('https://t.me/gtgrouppro?text=' + tgText, '_blank');
-    btn.textContent = '✅ Открываем Telegram';
-    btn.style.background = '#c8a84b';
-    btn.style.color = '#0e101c';
+    var t = encodeURIComponent(text);
+    window.open('https://t.me/gtgrouppro?text=' + t, '_blank');
+    btn.textContent = '💬 Написали в Telegram';
+    btn.style.background = '#c8a84b'; btn.style.color = '#0e101c';
     btn.disabled = false;
     inputs.forEach(function(i) { i.value = ''; });
   });
