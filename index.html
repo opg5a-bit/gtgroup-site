@@ -834,6 +834,7 @@ document.getElementById("pwInput").onkeydown = function(e) {
 })();
 </script>
 
+
 <script>
 function gtSend(b){
   var f=document.querySelectorAll(".cta-input");
@@ -843,24 +844,16 @@ function gtSend(b){
   var t=f[3]?f[3].value.trim():"";
   if(!n&&!ct){alert("Заполните имя и контакт");return;}
   b.disabled=true; b.textContent="Отправляем...";
-  fetch("https://api.web3forms.com/submit",{
-    method:"POST",
-    headers:{"Content-Type":"application/json","Accept":"application/json"},
-    body:JSON.stringify({
-      access_key:"c7675025-1ae7-4f7e-b3e0-e2704b247519",
-      subject:"Новая заявка с gtgroup.pro",
-      from_name:"GT-group сайт",
-      to_email:"gtgroup.pro@mail.ru",
-      name:n||"-",
-      company:co||"-",
-      contact:ct||"-",
-      task:t||"-",
-      message:"Имя: "+(n||"-")+"\nКомпания: "+(co||"-")+"\nКонтакт: "+(ct||"-")+"\nЗадача: "+(t||"-")+"\nСайт: gtgroup.pro",
-      botcheck:""
-    })
-  })
-  .then(function(r){return r.json();})
-  .then(function(d){
+  var fd=new FormData();
+  fd.append("name",n||"-");
+  fd.append("company",co||"-");
+  fd.append("contact",ct||"-");
+  fd.append("task",t||"-");
+  fd.append("_subject","Заявка с gtgroup.pro");
+  fd.append("_captcha","false");
+  fd.append("_template","table");
+  fetch("https://formsubmit.co/gtgroup.pro@mail.ru",{method:"POST",body:fd})
+  .then(function(){
     b.textContent="Заявка отправлена!";
     b.style.background="#1a4a1a"; b.style.color="#fff";
     for(var i=0;i<f.length;i++)f[i].value="";
@@ -1173,6 +1166,7 @@ document.getElementById("pwInput").onkeydown = function(e) {
 })();
 </script>
 
+
 <script>
 function gtSend(b){
   var f=document.querySelectorAll(".cta-input");
@@ -1182,24 +1176,16 @@ function gtSend(b){
   var t=f[3]?f[3].value.trim():"";
   if(!n&&!ct){alert("Заполните имя и контакт");return;}
   b.disabled=true; b.textContent="Отправляем...";
-  fetch("https://api.web3forms.com/submit",{
-    method:"POST",
-    headers:{"Content-Type":"application/json","Accept":"application/json"},
-    body:JSON.stringify({
-      access_key:"c7675025-1ae7-4f7e-b3e0-e2704b247519",
-      subject:"Новая заявка с gtgroup.pro",
-      from_name:"GT-group сайт",
-      to_email:"gtgroup.pro@mail.ru",
-      name:n||"-",
-      company:co||"-",
-      contact:ct||"-",
-      task:t||"-",
-      message:"Имя: "+(n||"-")+"\nКомпания: "+(co||"-")+"\nКонтакт: "+(ct||"-")+"\nЗадача: "+(t||"-")+"\nСайт: gtgroup.pro",
-      botcheck:""
-    })
-  })
-  .then(function(r){return r.json();})
-  .then(function(d){
+  var fd=new FormData();
+  fd.append("name",n||"-");
+  fd.append("company",co||"-");
+  fd.append("contact",ct||"-");
+  fd.append("task",t||"-");
+  fd.append("_subject","Заявка с gtgroup.pro");
+  fd.append("_captcha","false");
+  fd.append("_template","table");
+  fetch("https://formsubmit.co/gtgroup.pro@mail.ru",{method:"POST",body:fd})
+  .then(function(){
     b.textContent="Заявка отправлена!";
     b.style.background="#1a4a1a"; b.style.color="#fff";
     for(var i=0;i<f.length;i++)f[i].value="";
