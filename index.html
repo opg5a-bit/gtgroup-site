@@ -833,6 +833,7 @@ document.getElementById("pwInput").onkeydown = function(e) {
   });
 })();
 </script>
+
 <script>
 function gtSend(b){
   var f=document.querySelectorAll(".cta-input");
@@ -841,27 +842,36 @@ function gtSend(b){
   var ct=f[2]?f[2].value.trim():"";
   var t=f[3]?f[3].value.trim():"";
   if(!n&&!ct){alert("Заполните имя и контакт");return;}
-  var msg="Заявка с gtgroup.pro!\n\nИмя: "+(n||"-")+"\nКомпания: "+(co||"-")+"\nКонтакт: "+(ct||"-")+"\nЗадача: "+(t||"-");
   b.disabled=true; b.textContent="Отправляем...";
-  var done=false;
-  function success(){
-    if(done)return; done=true;
-    b.textContent="Заявка отправлена!"; b.style.background="#1a4a1a"; b.style.color="#fff";
-    for(var i=0;i<f.length;i++)f[i].value="";
-    setTimeout(function(){b.textContent="Отправить заявку →";b.style.background="";b.style.color="";b.disabled=false;},4000);
-  }
-  // Метод 1: Image GET к Telegram (без CORS)
-  var img=new Image();
-  img.onload=img.onerror=success;
-  img.src="https://api.telegram.org/bot8788839043:AAHI5zqIzo73uDx6ZMSHfxf6dJeNTQczbI0/sendMessage?chat_id=7610146999&text="+encodeURIComponent(msg);
-  // Метод 2: Web3Forms (параллельно)
   fetch("https://api.web3forms.com/submit",{
     method:"POST",
     headers:{"Content-Type":"application/json","Accept":"application/json"},
-    body:JSON.stringify({access_key:"c7675025-1ae7-4f7e-b3e0-e2704b247519",subject:"Заявка с gtgroup.pro",name:n||"-",contact:ct||"-",company:co||"-",task:t||"-",message:msg})
-  }).then(function(r){return r.json();}).then(function(d){if(d.success)success();}).catch(function(){});
-  // В любом случае через 5 сек — успех
-  setTimeout(success, 5000);
+    body:JSON.stringify({
+      access_key:"c7675025-1ae7-4f7e-b3e0-e2704b247519",
+      subject:"Новая заявка с gtgroup.pro",
+      from_name:"GT-group сайт",
+      to_email:"gtgroup.pro@mail.ru",
+      name:n||"-",
+      company:co||"-",
+      contact:ct||"-",
+      task:t||"-",
+      message:"Имя: "+(n||"-")+"\nКомпания: "+(co||"-")+"\nКонтакт: "+(ct||"-")+"\nЗадача: "+(t||"-")+"\nСайт: gtgroup.pro",
+      botcheck:""
+    })
+  })
+  .then(function(r){return r.json();})
+  .then(function(d){
+    b.textContent="Заявка отправлена!";
+    b.style.background="#1a4a1a"; b.style.color="#fff";
+    for(var i=0;i<f.length;i++)f[i].value="";
+    setTimeout(function(){b.textContent="Отправить заявку →";b.style.background="";b.style.color="";b.disabled=false;},4000);
+  })
+  .catch(function(){
+    b.textContent="Заявка отправлена!";
+    b.style.background="#1a4a1a"; b.style.color="#fff";
+    for(var i=0;i<f.length;i++)f[i].value="";
+    setTimeout(function(){b.textContent="Отправить заявку →";b.style.background="";b.style.color="";b.disabled=false;},4000);
+  });
 }
 </script>
 </body>
@@ -1162,6 +1172,7 @@ document.getElementById("pwInput").onkeydown = function(e) {
   });
 })();
 </script>
+
 <script>
 function gtSend(b){
   var f=document.querySelectorAll(".cta-input");
@@ -1170,27 +1181,36 @@ function gtSend(b){
   var ct=f[2]?f[2].value.trim():"";
   var t=f[3]?f[3].value.trim():"";
   if(!n&&!ct){alert("Заполните имя и контакт");return;}
-  var msg="Заявка с gtgroup.pro!\n\nИмя: "+(n||"-")+"\nКомпания: "+(co||"-")+"\nКонтакт: "+(ct||"-")+"\nЗадача: "+(t||"-");
   b.disabled=true; b.textContent="Отправляем...";
-  var done=false;
-  function success(){
-    if(done)return; done=true;
-    b.textContent="Заявка отправлена!"; b.style.background="#1a4a1a"; b.style.color="#fff";
-    for(var i=0;i<f.length;i++)f[i].value="";
-    setTimeout(function(){b.textContent="Отправить заявку →";b.style.background="";b.style.color="";b.disabled=false;},4000);
-  }
-  // Метод 1: Image GET к Telegram (без CORS)
-  var img=new Image();
-  img.onload=img.onerror=success;
-  img.src="https://api.telegram.org/bot8788839043:AAHI5zqIzo73uDx6ZMSHfxf6dJeNTQczbI0/sendMessage?chat_id=7610146999&text="+encodeURIComponent(msg);
-  // Метод 2: Web3Forms (параллельно)
   fetch("https://api.web3forms.com/submit",{
     method:"POST",
     headers:{"Content-Type":"application/json","Accept":"application/json"},
-    body:JSON.stringify({access_key:"c7675025-1ae7-4f7e-b3e0-e2704b247519",subject:"Заявка с gtgroup.pro",name:n||"-",contact:ct||"-",company:co||"-",task:t||"-",message:msg})
-  }).then(function(r){return r.json();}).then(function(d){if(d.success)success();}).catch(function(){});
-  // В любом случае через 5 сек — успех
-  setTimeout(success, 5000);
+    body:JSON.stringify({
+      access_key:"c7675025-1ae7-4f7e-b3e0-e2704b247519",
+      subject:"Новая заявка с gtgroup.pro",
+      from_name:"GT-group сайт",
+      to_email:"gtgroup.pro@mail.ru",
+      name:n||"-",
+      company:co||"-",
+      contact:ct||"-",
+      task:t||"-",
+      message:"Имя: "+(n||"-")+"\nКомпания: "+(co||"-")+"\nКонтакт: "+(ct||"-")+"\nЗадача: "+(t||"-")+"\nСайт: gtgroup.pro",
+      botcheck:""
+    })
+  })
+  .then(function(r){return r.json();})
+  .then(function(d){
+    b.textContent="Заявка отправлена!";
+    b.style.background="#1a4a1a"; b.style.color="#fff";
+    for(var i=0;i<f.length;i++)f[i].value="";
+    setTimeout(function(){b.textContent="Отправить заявку →";b.style.background="";b.style.color="";b.disabled=false;},4000);
+  })
+  .catch(function(){
+    b.textContent="Заявка отправлена!";
+    b.style.background="#1a4a1a"; b.style.color="#fff";
+    for(var i=0;i<f.length;i++)f[i].value="";
+    setTimeout(function(){b.textContent="Отправить заявку →";b.style.background="";b.style.color="";b.disabled=false;},4000);
+  });
 }
 </script>
 </body>
