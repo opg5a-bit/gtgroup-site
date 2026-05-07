@@ -581,7 +581,7 @@ window.addEventListener('scroll', () => {
 });
 </script>
 <!-- КНОПКА РЕДАКТОРА -->
-<button id="editBtn" style="display:none" title="Редактировать сайт">✏️</button>
+<button id="editBtn" onclick="ED && ED.open ? ED.open() : document.getElementById('pwModal').style.display='flex'" style="display:none" title="Редактировать сайт">✏️</button>
 <!-- МОДАЛКА ПАРОЛЯ -->
 <div id="pwModal" style="display:none;position:fixed;inset:0;z-index:9500;background:rgba(7,8,15,.93);backdrop-filter:blur(16px);align-items:center;justify-content:center">
 <div class="pwBox">
@@ -912,7 +912,7 @@ window.addEventListener('scroll', () => {
 });
 </script>
 <!-- КНОПКА РЕДАКТОРА -->
-<button id="editBtn" style="display:none" title="Редактировать сайт">✏️</button>
+<button id="editBtn" onclick="ED && ED.open ? ED.open() : document.getElementById('pwModal').style.display='flex'" style="display:none" title="Редактировать сайт">✏️</button>
 <!-- МОДАЛКА ПАРОЛЯ -->
 <div id="pwModal" style="display:none;position:fixed;inset:0;z-index:9500;background:rgba(7,8,15,.93);backdrop-filter:blur(16px);align-items:center;justify-content:center">
 <div class="pwBox">
