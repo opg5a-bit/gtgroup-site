@@ -818,6 +818,7 @@ document.getElementById("pwInput").onkeydown = function(e) {
 
 
 
+
 <script>
 function gtSend(b){
   var f=document.querySelectorAll(".cta-input");
@@ -826,25 +827,44 @@ function gtSend(b){
   var ct=f[2]?f[2].value.trim():"";
   var t=f[3]?f[3].value.trim():"";
   if(!n&&!ct){alert("Заполните имя и контакт");return;}
-  var msg="Заявка с gtgroup.pro!\n\nИмя: "+(n||"-")+"\nКомпания: "+(co||"-")+"\nКонтакт: "+(ct||"-")+"\nЗадача: "+(t||"-")+"\n\nСайт: gtgroup.pro";
   b.disabled=true; b.textContent="Отправляем...";
-  fetch("https://hook.eu1.make.com/7wsfcs1dquu5zpv5o2d67utranu6hkz9",{
+  fetch("https://api.web3forms.com/submit",{
     method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({message:msg,name:n,company:co,contact:ct,task:t})
+    headers:{"Content-Type":"application/json","Accept":"application/json"},
+    body:JSON.stringify({
+      access_key:"c7675025-1ae7-4f7e-b3e0-e2704b247519",
+      subject:"Заявка с gtgroup.pro",
+      from_name:"GT-group сайт",
+      name:n||"-",
+      company:co||"-",
+      contact:ct||"-",
+      task:t||"-",
+      message:"Имя: "+(n||"-")+"\nКомпания: "+(co||"-")+"\nКонтакт: "+(ct||"-")+"\nЗадача: "+(t||"-")
+    })
   })
-  .then(function(r){return r.text();})
-  .then(function(){
-    b.textContent="Заявка отправлена!";
-    b.style.background="#1a4a1a"; b.style.color="#fff";
-    for(var i=0;i<f.length;i++)f[i].value="";
+  .then(function(r){return r.json();})
+  .then(function(d){
+    b.textContent=d.success?"Заявка отправлена!":"Ошибка отправки";
+    b.style.background=d.success?"#1a4a1a":"#4a1a1a";
+    b.style.color="#fff";
+    if(d.success) for(var i=0;i<f.length;i++)f[i].value="";
     setTimeout(function(){b.textContent="Отправить заявку →";b.style.background="";b.style.color="";b.disabled=false;},4000);
   })
-  .catch(function(){
-    b.textContent="Ошибка соединения";
-    b.disabled=false;
-  });
+  .catch(function(){b.textContent="Ошибка";b.disabled=false;});
 }
+</script><script>
+(function(){
+  var keys=[];
+  document.addEventListener('keydown',function(e){
+    keys.push(e.key.toLowerCase());
+    if(keys.length>2)keys.shift();
+    if(keys.join('')==='gt'){
+      var btn=document.getElementById('editBtn');
+      if(btn){btn.style.display='flex';btn.style.position='fixed';btn.style.bottom='28px';btn.style.right='28px';btn.style.zIndex='9000';}
+      keys=[];
+    }
+  });
+})();
 </script>
 </body>
 <link href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiIgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIj4KICA8cmVjdCB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHJ4PSI3IiBmaWxsPSIjMGUxMDFjIi8+CiAgPHJlY3QgeD0iMiIgeT0iMiIgd2lkdGg9IjI4IiBoZWlnaHQ9IjI4IiByeD0iNS41IiBmaWxsPSJub25lIiBzdHJva2U9IiNjOGE4NGIiIHN0cm9rZS13aWR0aD0iMiIvPgogIDx0ZXh0IHg9IjE2IiB5PSIyMiIgZm9udC1mYW1pbHk9IkFyaWFsIEJsYWNrLCBBcmlhbCIgZm9udC13ZWlnaHQ9IjkwMCIgZm9udC1zaXplPSIxNCIgCiAgICAgICAgZmlsbD0iI2M4YTg0YiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgbGV0dGVyLXNwYWNpbmc9IjAuNSI+R1Q8L3RleHQ+Cjwvc3ZnPg==" rel="icon" type="image/svg+xml"/>
@@ -1129,6 +1149,7 @@ document.getElementById("pwInput").onkeydown = function(e) {
 
 
 
+
 <script>
 function gtSend(b){
   var f=document.querySelectorAll(".cta-input");
@@ -1137,25 +1158,44 @@ function gtSend(b){
   var ct=f[2]?f[2].value.trim():"";
   var t=f[3]?f[3].value.trim():"";
   if(!n&&!ct){alert("Заполните имя и контакт");return;}
-  var msg="Заявка с gtgroup.pro!\n\nИмя: "+(n||"-")+"\nКомпания: "+(co||"-")+"\nКонтакт: "+(ct||"-")+"\nЗадача: "+(t||"-")+"\n\nСайт: gtgroup.pro";
   b.disabled=true; b.textContent="Отправляем...";
-  fetch("https://hook.eu1.make.com/7wsfcs1dquu5zpv5o2d67utranu6hkz9",{
+  fetch("https://api.web3forms.com/submit",{
     method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({message:msg,name:n,company:co,contact:ct,task:t})
+    headers:{"Content-Type":"application/json","Accept":"application/json"},
+    body:JSON.stringify({
+      access_key:"c7675025-1ae7-4f7e-b3e0-e2704b247519",
+      subject:"Заявка с gtgroup.pro",
+      from_name:"GT-group сайт",
+      name:n||"-",
+      company:co||"-",
+      contact:ct||"-",
+      task:t||"-",
+      message:"Имя: "+(n||"-")+"\nКомпания: "+(co||"-")+"\nКонтакт: "+(ct||"-")+"\nЗадача: "+(t||"-")
+    })
   })
-  .then(function(r){return r.text();})
-  .then(function(){
-    b.textContent="Заявка отправлена!";
-    b.style.background="#1a4a1a"; b.style.color="#fff";
-    for(var i=0;i<f.length;i++)f[i].value="";
+  .then(function(r){return r.json();})
+  .then(function(d){
+    b.textContent=d.success?"Заявка отправлена!":"Ошибка отправки";
+    b.style.background=d.success?"#1a4a1a":"#4a1a1a";
+    b.style.color="#fff";
+    if(d.success) for(var i=0;i<f.length;i++)f[i].value="";
     setTimeout(function(){b.textContent="Отправить заявку →";b.style.background="";b.style.color="";b.disabled=false;},4000);
   })
-  .catch(function(){
-    b.textContent="Ошибка соединения";
-    b.disabled=false;
-  });
+  .catch(function(){b.textContent="Ошибка";b.disabled=false;});
 }
+</script><script>
+(function(){
+  var keys=[];
+  document.addEventListener('keydown',function(e){
+    keys.push(e.key.toLowerCase());
+    if(keys.length>2)keys.shift();
+    if(keys.join('')==='gt'){
+      var btn=document.getElementById('editBtn');
+      if(btn){btn.style.display='flex';btn.style.position='fixed';btn.style.bottom='28px';btn.style.right='28px';btn.style.zIndex='9000';}
+      keys=[];
+    }
+  });
+})();
 </script>
 </body>
 </html>
